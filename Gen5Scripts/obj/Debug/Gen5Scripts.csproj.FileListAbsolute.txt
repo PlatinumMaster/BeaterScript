@@ -1,0 +1,12 @@
+C:\Users\Programmer96\source\repos\ClassLibrary1\ClassLibrary1\obj\Debug\Gen5Scripts.csproj.CoreCompileInputs.cache
+C:\Users\Programmer96\source\repos\ClassLibrary1\ClassLibrary1\bin\Debug\Gen5Scripts.dll
+C:\Users\Programmer96\source\repos\ClassLibrary1\ClassLibrary1\bin\Debug\Gen5Scripts.pdb
+C:\Users\Programmer96\source\repos\ClassLibrary1\ClassLibrary1\obj\Debug\Gen5Scripts.dll
+C:\Users\Programmer96\source\repos\ClassLibrary1\ClassLibrary1\obj\Debug\Gen5Scripts.pdb
+C:\Users\Programmer96\source\repos\ClassLibrary1\ClassLibrary1\obj\Debug\Gen5Scripts.csprojAssemblyReference.cache
+C:\Users\Programmer96\source\repos\BeaterScript\Gen5Scripts\bin\Debug\Gen5Scripts.dll
+C:\Users\Programmer96\source\repos\BeaterScript\Gen5Scripts\bin\Debug\Gen5Scripts.pdb
+C:\Users\Programmer96\source\repos\BeaterScript\Gen5Scripts\obj\Debug\Gen5Scripts.csprojAssemblyReference.cache
+C:\Users\Programmer96\source\repos\BeaterScript\Gen5Scripts\obj\Debug\Gen5Scripts.csproj.CoreCompileInputs.cache
+C:\Users\Programmer96\source\repos\BeaterScript\Gen5Scripts\obj\Debug\Gen5Scripts.dll
+C:\Users\Programmer96\source\repos\BeaterScript\Gen5Scripts\obj\Debug\Gen5Scripts.pdb
