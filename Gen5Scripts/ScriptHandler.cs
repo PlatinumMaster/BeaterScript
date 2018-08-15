@@ -9,6 +9,7 @@ namespace Gen5Scripts
     {
         public List<uint> pointers = new List<uint>();
         public List<string> ScriptData = new List<string>();
+        public int nScripts = 0;
 
         CommandHandler cmdhndlr = new CommandHandler();
         BinaryReader b;
@@ -110,26 +111,35 @@ namespace Gen5Scripts
                         k++;
                     }
 
-                if (i+1 != script.Count)
+                if (i + 1 != script.Count)
                     i++;
                 else
+                {
+                    nScripts = script.Count;
                     break;
+                }
             }
 
-            using (BinaryWriter b = new BinaryWriter(File.Create(Path.GetFileNameWithoutExtension(script_name) + "_rawcmd.bin")))
+            using (BinaryWriter b = new BinaryWriter(File.Create(Path.Combine(Path.GetDirectoryName(script_name), (Path.GetFileNameWithoutExtension(script_name) + "_rawcmd.bin")))))
                 foreach (byte Value in scriptdata)
                     b.Write(Value);
         }
 
         public void BringItHome(string scriptname)
         {
-            byte[] header = new byte[] { 0x02, 0x00, 0x00, 0x00, 0x13, 0xFD };
-            using (BinaryWriter b = new BinaryWriter(File.Open(Path.GetFileNameWithoutExtension(scriptname), FileMode.Create)))
+            byte[] header;
+            header = new byte[] { 0x02, 0x00, 0x00, 0x00, 0x13, 0xFD };
+
+
+            using (BinaryWriter b = new BinaryWriter(File.Open(Path.Combine(Path.GetDirectoryName(scriptname), (Path.GetFileNameWithoutExtension(scriptname) + ".bin")), FileMode.Create)))
             {
+                var rawcmd = Path.Combine(Path.GetDirectoryName(scriptname), (Path.GetFileNameWithoutExtension(scriptname) + "_rawcmd.bin"));
+
                 // For each script write it to this new file after getting the size.
                 b.Write(header, 0, header.Length);
-                var script = File.ReadAllBytes(Path.GetFileNameWithoutExtension(scriptname) + "_rawcmd.bin");
+                var script = File.ReadAllBytes(rawcmd);
                 b.Write(script);
+                //File.Delete(rawcmd);
             }
         }
     }

@@ -181,7 +181,7 @@ namespace Gen5Scripts
             ("WaitSound", null),
             ("PlayFanfare", new List<string>{ "UInt16" }),
             ("WaitFanfare", null),
-            ("Cry", new List<string>{ "UInt16", "UInt16" }),
+            ("Cry", new List<string>{ "UInt16", "UIntH16" }),
             ("WaitCry", null),
             ("Nop", null),
             ("Nop", null),
