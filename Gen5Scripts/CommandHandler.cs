@@ -181,16 +181,36 @@ namespace Gen5Scripts
             ("WaitSound", null),
             ("PlayFanfare", new List<string>{ "UInt16" }),
             ("WaitFanfare", null),
-            ("Cry", new List<string>{ "UInt16", "UIntH16" }),
+            ("Cry", new List<string>{ "UInt16", "UInt16" }),
             ("WaitCry", null),
             ("Nop", null),
             ("Nop", null),
             ("SetTextScriptMessage", new List<string>{ "UInt16", "UInt16", "UInt16" }),
+            ("CloseMulti", null),
+            ("B1", null),
+            ("Multi2", new List<string>{"UInt8", "UInt8", "UInt8", "UInt8", "UInt16"}),
+            ("FadeScreen", new List<string>{"UInt16", "UInt16", "UInt16", "UInt16"}),
+            ("ResetScreen", new List<string>{"UInt16", "UInt16", "UInt16"}),
+            ("ScreenB5", new List<string>{"UInt16", "UInt16", "UInt16"}),
+            ("TakeItem", new List<string>{"UInt16", "UInt16", "UInt16"}),
+            ("CheckItemBagSpace", new List<string>{"UInt16", "UInt16", "UInt16"}),
+            ("CheckItemBagNumber", new List<string>{"UInt16", "UInt16", "UInt16"}),
+            ("StoreItemCount", new List<string>{"UInt16", "UInt16"}),
+            ("BA", new List<string>{"UInt16", "UInt16", "UInt16", "UInt16"}),
+            ("BB", new List<string>{"UInt16", "UInt16"}),
+            ("BC", new List<string>{"UInt16"}),
+            ("Nop", null),
+            ("Warp", new List<string>{"UInt16", "UInt16", "UInt16"}),
+            ("TeleportWarp", new List<string>{"UInt16", "UInt16", "UInt16", "UInt16"}),
+            ("Nop", null),
+            ("FallWarp", new List<string>{"UInt16", "UInt16", "UInt16"}),
+            ("FastWarp", new List<string>{"UInt16", "UInt16", "UInt16", "UInt16"}),
+            ("UnionWarp", null),
         };
 
         public string GetCommand(int command)
         {
-            return CommandList[command].name;
+                return CommandList[command].name;
         }
 
         public List<string> GetParameters(int command)

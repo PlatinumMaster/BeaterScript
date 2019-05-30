@@ -8,7 +8,7 @@ namespace Gen5Scripts
     public class ScriptHandler
     {
         public List<uint> pointers = new List<uint>();
-        public List<string> ScriptData = new List<string>();
+        public List<string> ScriptData;
         public int nScripts = 0;
 
         CommandHandler cmdhndlr = new CommandHandler();
@@ -55,7 +55,9 @@ namespace Gen5Scripts
             bool isEnd = false;
             var cmd_num = 0;
 
-            b.BaseStream.Position = 0 + (4 * (pointer_number + 1)) + pointers[pointer_number];
+            ScriptData = new List<string>();
+
+            b.BaseStream.Position = pointers[pointer_number] + 4 * (pointer_number + 1);
 
             while (isEnd == false)
             {
@@ -69,7 +71,7 @@ namespace Gen5Scripts
                     for (int i = 0; i < cmdparams.Count; i++)
                     {
                         ScriptData[cmd_num] += " ";
-                        ScriptData[cmd_num] += GetParam((cmdparams[i]).ToString());
+                        ScriptData[cmd_num] += GetParam(cmdparams[i]).ToString();
                     }
                 cmd_num++;
             }
@@ -129,18 +131,19 @@ namespace Gen5Scripts
         {
             byte[] header;
             header = new byte[] { 0x02, 0x00, 0x00, 0x00, 0x13, 0xFD };
+            var rawcmd = "";
 
 
             using (BinaryWriter b = new BinaryWriter(File.Open(Path.Combine(Path.GetDirectoryName(scriptname), (Path.GetFileNameWithoutExtension(scriptname) + ".bin")), FileMode.Create)))
             {
-                var rawcmd = Path.Combine(Path.GetDirectoryName(scriptname), (Path.GetFileNameWithoutExtension(scriptname) + "_rawcmd.bin"));
+                rawcmd = Path.Combine(Path.GetDirectoryName(scriptname), (Path.GetFileNameWithoutExtension(scriptname) + "_rawcmd.bin"));
 
                 // For each script write it to this new file after getting the size.
                 b.Write(header, 0, header.Length);
                 var script = File.ReadAllBytes(rawcmd);
                 b.Write(script);
-                //File.Delete(rawcmd);
             }
+            File.Delete(rawcmd);
         }
     }
 }
