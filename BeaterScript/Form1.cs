@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Gen5Scripts;
+using BeaterScriptEngine;
 
 namespace ScriptEditor
 {
     public partial class Form1 : Form
     {
-        ScriptHandler s = new ScriptHandler();
+        BeaterScriptEngine.ScriptParser parser;
         string script_name;
 
         public Form1()
@@ -25,25 +20,10 @@ namespace ScriptEditor
         {
             SaveFileDialog fileDialog = new SaveFileDialog();
             FolderBrowserDialog browserDialog = new FolderBrowserDialog();
-            fileDialog.Filter += ".bin|Generation 5 Script";
+            fileDialog.Filter = "Generation 5 Script | (*.bin)";
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
-                script_name = browserDialog.SelectedPath + fileDialog.FileName;
-                List<string> newScript = textBox1.Text.Split(Environment.NewLine.ToCharArray()).ToList();
-                var emptycount = 0;
-
-                for (int i = 0; i < newScript.Count; i++)
-                    if (newScript[i] == "")
-                        emptycount++;
-
-                for (int i = 0; i <= emptycount; i++)
-                    newScript.Remove("");
-
-                for (int i = 0; i < newScript.Count; i++)
-                    Console.WriteLine(newScript[i]);
-
-                s.WriteCommands(script_name, newScript);
-                s.BringItHome(script_name);
+                // TODO: Implement rewriting.
             }
         }
 
@@ -55,25 +35,34 @@ namespace ScriptEditor
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.Filter += ".bin|Generation 5 Script";
+            fileDialog.Filter = "Generation V Script | *.bin";
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
-                script_name = fileDialog.FileName;
-                s.LoadScript(script_name);
-                s.FetchPointers(script_name);
-                s.FetchCommands(0, script_name);
+                parser = new ScriptParser(fileDialog.FileName, "B2W2");
+                parser.FindScriptAddresses();
 
-                for (int i = 0; i < s.pointers.Count; i++)
-                    toolStripComboBox1.Items.Add(s.pointers[i].ToString());
+                for (int i = 0; i < parser.Addresses.Count; i++)
+                    toolStripComboBox1.Items.Add(i);
 
-                for (int i = 0; i < s.ScriptData.Count; i++)
-                    textBox1.Text += s.ScriptData[i] + Environment.NewLine;
+                List<BeaterScriptEngine.Command> script = parser.ReadScript(parser.Addresses[0]);
+                for (int i = 0; i < script.Count; i++)
+                    textBox1.Text += String.Format("{0}{1}", script[i].ToString(), Environment.NewLine);
             }
         }
 
         private void toolStripComboBox1_SelectionChanged(object sender, EventArgs e)
         {
-            s.FetchCommands(0, script_name);
+            textBox1.Text = "";
+             
+            if (toolStripComboBox1.SelectedIndex > parser.Addresses.Count())
+            {
+                toolStripComboBox1.SelectedIndex = parser.Addresses.Count();
+                return;
+            }
+
+            List<BeaterScriptEngine.Command> script = parser.ReadScript(parser.Addresses[toolStripComboBox1.SelectedIndex]);
+            for (int i = 0; i < script.Count; i++)
+                textBox1.Text += String.Format("{0}{1}", script[i].ToString(), Environment.NewLine);
         }
 
         private void Form1_Load(object sender, EventArgs e)
