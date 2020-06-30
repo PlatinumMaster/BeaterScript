@@ -1,6 +1,0 @@
-C:\Users\Programmer96\source\repos\BeaterScript\Gen5Scripts\bin\Release\Gen5Scripts.dll
-C:\Users\Programmer96\source\repos\BeaterScript\Gen5Scripts\bin\Release\Gen5Scripts.pdb
-C:\Users\Programmer96\source\repos\BeaterScript\Gen5Scripts\obj\Release\Gen5Scripts.csproj.CoreCompileInputs.cache
-C:\Users\Programmer96\source\repos\BeaterScript\Gen5Scripts\obj\Release\Gen5Scripts.dll
-C:\Users\Programmer96\source\repos\BeaterScript\Gen5Scripts\obj\Release\Gen5Scripts.pdb
-C:\Users\Programmer96\source\repos\BeaterScript\Gen5Scripts\obj\Release\Gen5Scripts.csprojAssemblyReference.cache

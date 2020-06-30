@@ -95,7 +95,6 @@
     Parameters:
         - byte
         - byte
-
 0x17:
     Name: CompareGlobalVars
     Parameters:

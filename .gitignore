@@ -1,6 +1,6 @@
 .vs/*
-Gen5Scripts/bin/*
-Gen5Scripts/obj/*
+BeaterScriptEngine/bin/*
+BeaterScriptEngine/obj/*
 BeaterScript/bin/*
 BeaterScript/obj/*
 packages/*

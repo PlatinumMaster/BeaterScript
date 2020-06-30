@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeaterScript", "BeaterScript\BeaterScript.csproj", "{93F2E673-5F5A-4914-93C2-6A35638C0B07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeaterScriptEngine", "Gen5Scripts\BeaterScriptEngine.csproj", "{B585D741-4402-404C-B040-9C54C73E1AC9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeaterScriptEngine", "BeaterScriptEngine\BeaterScriptEngine.csproj", "{B585D741-4402-404C-B040-9C54C73E1AC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
