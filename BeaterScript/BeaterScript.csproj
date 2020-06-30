@@ -95,9 +95,9 @@
     <Content Include="CIMG2320.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Gen5Scripts\Gen5Scripts.csproj">
+    <ProjectReference Include="..\Gen5Scripts\BeaterScriptEngine.csproj">
       <Project>{b585d741-4402-404c-b040-9c54c73e1ac9}</Project>
-      <Name>Gen5Scripts</Name>
+      <Name>BeaterScriptEngine</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

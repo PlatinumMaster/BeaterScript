@@ -9,11 +9,13 @@ namespace BeaterScriptEngine
     public class CommandsListHandler
     {
         public Dictionary<ushort, Command> commands;
+        public Dictionary<string, ushort> command_map;
 
         public CommandsListHandler(string game)
         {
             // Parse Commands from YAML, and store them.
             commands = new Dictionary<ushort, Command>();
+            command_map = new Dictionary<string, ushort>();
             using (var s = File.OpenText($"{game}.yml"))
             {
                 var deserializer = new Deserializer();
@@ -23,6 +25,7 @@ namespace BeaterScriptEngine
                     bool hasFunction = false;
                     bool hasMovement = false;
                     List<Type> types = new List<Type>();
+                    command_map.Add(commands_yaml[entry.Key]["Name"].ToString(), (ushort)entry.Key);
                     try
                     {
                         var parameters = (YamlSequenceNode)commands_yaml[entry.Key]["Parameters"];
@@ -43,7 +46,7 @@ namespace BeaterScriptEngine
                             }
                         if ((string)(YamlScalarNode)commands_yaml[entry.Key]["HasFunction"] == "true")
                             hasFunction = true;
-                        if ((string)(YamlScalarNode)commands_yaml[entry.Key]["HasMovement"] == "true")
+                        else if ((string)(YamlScalarNode)commands_yaml[entry.Key]["HasMovement"] == "true")
                             hasMovement = true;
 
                     }
