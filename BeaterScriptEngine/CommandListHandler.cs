@@ -32,22 +32,20 @@ namespace BeaterScriptEngine
                         foreach (var p in parameters.Children)
                             switch(p.ToString())
                             {
-                                case "uint":
-                                    types.Add(typeof(uint));
+                                case "int":
+                                    types.Add(typeof(int));
                                     break;
-                                case "ushort":
-                                    types.Add(typeof(ushort));
+                                case "short":
+                                    types.Add(typeof(short));
                                     break;
-                                case "byte":
-                                    types.Add(typeof(byte));
+                                case "sbyte":
+                                    types.Add(typeof(sbyte));
                                     break;
                                 default:
                                     break;
                             }
-                        if ((string)(YamlScalarNode)commands_yaml[entry.Key]["HasFunction"] == "true")
-                            hasFunction = true;
-                        else if ((string)(YamlScalarNode)commands_yaml[entry.Key]["HasMovement"] == "true")
-                            hasMovement = true;
+                        hasFunction = (string)(YamlScalarNode)commands_yaml[entry.Key]["HasFunction"] == "true";
+                        hasMovement = (string)(YamlScalarNode)commands_yaml[entry.Key]["HasMovement"] == "true";
 
                     }
                     catch (KeyNotFoundException) {} // Ignore, as the command does not have parameters.

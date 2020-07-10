@@ -58,6 +58,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Movement.cs" />
     <Compile Include="CommandListHandler.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="Lexer.cs" />

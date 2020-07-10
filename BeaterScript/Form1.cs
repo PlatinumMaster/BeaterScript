@@ -9,8 +9,7 @@ namespace ScriptEditor
 {
     public partial class Form1 : Form
     {
-        BeaterScriptEngine.ScriptParser parser;
-        string script_name;
+        ScriptParser parser;
 
         public Form1()
         {
@@ -29,11 +28,6 @@ namespace ScriptEditor
             }
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
@@ -41,7 +35,6 @@ namespace ScriptEditor
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
                 parser = new ScriptParser(fileDialog.FileName, "B2W2");
-                parser.FindScriptAddresses();
 
                 for (int i = 0; i < parser.Addresses.Count; i++)
                     toolStripComboBox1.Items.Add(i);
@@ -53,21 +46,26 @@ namespace ScriptEditor
         private void toolStripComboBox1_SelectionChanged(object sender, EventArgs e)
         {
             textBox1.Text = "";
-             
             if (toolStripComboBox1.SelectedIndex > parser.Addresses.Count())
             {
                 toolStripComboBox1.SelectedIndex = parser.Addresses.Count();
                 return;
             }
 
-            List<BeaterScriptEngine.Command> script = parser.ReadScript(parser.Addresses[toolStripComboBox1.SelectedIndex]);
-            for (int i = 0; i < script.Count; i++)
-                textBox1.Text += String.Format("{0}{1}", script[i].ToString(), Environment.NewLine);
+            foreach (Command c in parser.Scripts[toolStripComboBox1.SelectedIndex])
+                textBox1.Text += String.Format("{0}{1}", c.ToString(), Environment.NewLine);
+
+
+            foreach (Command c in parser.Functions[toolStripComboBox1.SelectedIndex])
+                textBox2.Text += String.Format("{0}{1}", c.ToString(), Environment.NewLine);
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             textBox1.AutoSize = true;
+            tabPage1.Text = "Scripts";
+            tabPage2.Text = "Functions";
+            tabPage3.Text = "Movements";
         }
     }
 }
