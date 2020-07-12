@@ -8,11 +8,11 @@ namespace BeaterScriptEngine
 {
     public class Command
     {
-        private string name { get; set; }
-        private Type[] types { get; set; }
+        private string name { get; }
+        private Type[] types { get; }
         private Object[] parameters { get; set; }
-        private bool hasFunction { get; set; }
-        private bool hasMovement { get; set; }
+        private bool hasFunction { get; }
+        private bool hasMovement { get; }
 
         public Command(string name, bool hasFunction, bool hasMovement, params Type[] types)
         {
@@ -28,10 +28,6 @@ namespace BeaterScriptEngine
             {
                 return this.name;
             }
-            set
-            {
-                this.name = value;
-            }
         }
 
         public Type[] Types
@@ -39,10 +35,6 @@ namespace BeaterScriptEngine
             get
             {
                 return this.types;
-            }
-            set
-            {
-                this.types = value;
             }
         }
 
@@ -64,10 +56,6 @@ namespace BeaterScriptEngine
             {
                 return hasFunction;
             }
-            set
-            {
-                this.hasFunction = value;
-            }
         }
 
         public bool HasMovement
@@ -76,17 +64,15 @@ namespace BeaterScriptEngine
             {
                 return hasMovement;
             }
-            set
-            {
-                this.hasMovement = value;
-            }
         }
 
         public override string ToString()
         {
-            string result = this.Name + "(";
+            string result = $"{this.Name}(";
+
             for (int i = 0; i < Parameters.Length; i++)
                 result += Parameters[i] + (i != Parameters.Length - 1 ? ", " : "");
+
             return result.TrimEnd(' ') + ");";
         }
 
