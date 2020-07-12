@@ -39,7 +39,15 @@ namespace ScriptEditor
                 for (int i = 0; i < parser.Addresses.Count; i++)
                     toolStripComboBox1.Items.Add(i);
 
+                for (int i = 0; i < parser.Functions.Count; i++)
+                    toolStripComboBox2.Items.Add(i);
+
+                for (int i = 0; i < parser.Movements.Count; i++)
+                    toolStripComboBox3.Items.Add(i);
+
                 toolStripComboBox1.SelectedIndex = 0;
+                toolStripComboBox2.SelectedIndex = 0;
+                toolStripComboBox3.SelectedIndex = 0;
             }
         }
 
@@ -54,10 +62,32 @@ namespace ScriptEditor
 
             foreach (Command c in parser.Scripts[toolStripComboBox1.SelectedIndex])
                 textBox1.Text += String.Format("{0}{1}", c.ToString(), Environment.NewLine);
+        }
 
+        private void toolStripComboBox2_SelectionChanged(object sender, EventArgs e)
+        {
+            textBox2.Text = "";
+            if (toolStripComboBox2.SelectedIndex > parser.Functions.Count())
+            {
+                toolStripComboBox2.SelectedIndex = parser.Functions.Count();
+                return;
+            }
 
-            foreach (Command c in parser.Functions[toolStripComboBox1.SelectedIndex])
+            foreach (Command c in parser.Functions[toolStripComboBox2.SelectedIndex])
                 textBox2.Text += String.Format("{0}{1}", c.ToString(), Environment.NewLine);
+        }
+
+        private void toolStripComboBox3_SelectionChanged(object sender, EventArgs e)
+        {
+            textBox3.Text = "";
+            if (toolStripComboBox3.SelectedIndex > parser.Movements.Count())
+            {
+                toolStripComboBox3.SelectedIndex = parser.Movements.Count();
+                return;
+            }
+
+            foreach (Movement m in parser.Movements[toolStripComboBox3.SelectedIndex])
+                textBox3.Text += String.Format("{0}{1}", m.ToString(), Environment.NewLine);
         }
 
         private void Form1_Load(object sender, EventArgs e)

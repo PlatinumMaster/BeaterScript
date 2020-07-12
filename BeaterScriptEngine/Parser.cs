@@ -77,7 +77,7 @@ namespace BeaterScriptEngine
             {
                 b.BaseStream.Position -= 2;
                 int addr = b.ReadInt32();
-                this.pointers.Add(addr + (int)b.BaseStream.Position);
+                pointers.Add(addr + (int)b.BaseStream.Position);
                 next = b.ReadUInt16();
             }
         }
@@ -93,10 +93,10 @@ namespace BeaterScriptEngine
             {
                 movement.Add(new Movement(b.ReadInt16().ToString(), b.ReadInt16()));
 
-                if (b.ReadInt16() == 0xFE && b.ReadInt16() == 0x00)
+                if (b.ReadInt32() == 0xFE)
                     isEnd = true;
-
-                b.BaseStream.Position -= 0x4;
+                else
+                    b.BaseStream.Position -= 0x4;
             }
 
             movement.Add(new Movement("EndMovement", 0));
@@ -129,36 +129,41 @@ namespace BeaterScriptEngine
                 foreach (Type t in c.Types)
                     if (t == typeof(int))
                         parameters.Add(b.ReadInt32());
-                    else if (t == typeof(short))
+                    else if (t == typeof(ushort))
                         parameters.Add(b.ReadUInt16());
-                    else if (t == typeof(sbyte))
+                    else if (t == typeof(byte))
                         parameters.Add(b.ReadByte());
 
-                var originalPos = b.BaseStream.Position;
-                int addr = (c.HasFunction || c.HasMovement) ? (int)b.BaseStream.Position + (int)parameters[parameters.Count - 1] : 0;
+                int originalPos = (int)b.BaseStream.Position;
+
+                var addr = c.HasFunction || c.HasMovement ? originalPos + (int)parameters.Last() : 0;
 
                 if (c.HasFunction)
                 {
-                    Console.WriteLine($"A function was detected at {addr}.");
-
                     if (!parsed_functions.Contains(addr))
                     {
                         parsed_functions.Add(addr);
-                        functions.Add(this.ReadScript(addr));
+                        try
+                        {
+                            functions.Add(this.ReadScript(addr));
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine($"@Original position: {originalPos}\n@Addr Value: {addr - originalPos}");
+                            //throw e;
+                        }
+                        Console.WriteLine($"A function was detected at {addr}.");
                     }
-
                     parameters[parameters.Count - 1] = $"Function{parsed_functions.IndexOf(addr)}";
                 }
                 else if (c.HasMovement)
                 {
-                    Console.WriteLine($"A movement was detected at {addr}.");
-
                     if (!parsed_movements.Contains(addr))
                     {
-                        movements.Add(this.ReadMovement(addr));
                         parsed_movements.Add(addr);
+                        movements.Add(this.ReadMovement(addr));
+                        Console.WriteLine($"A movement was detected at {addr}.");
                     }
-
                     parameters[parameters.Count - 1] = $"Movement{parsed_movements.IndexOf(addr)}";
                 }
 

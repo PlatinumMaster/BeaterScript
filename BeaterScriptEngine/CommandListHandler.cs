@@ -35,15 +35,16 @@ namespace BeaterScriptEngine
                                 case "int":
                                     types.Add(typeof(int));
                                     break;
-                                case "short":
-                                    types.Add(typeof(short));
+                                case "ushort":
+                                    types.Add(typeof(ushort));
                                     break;
-                                case "sbyte":
-                                    types.Add(typeof(sbyte));
+                                case "byte":
+                                    types.Add(typeof(byte));
                                     break;
                                 default:
                                     break;
                             }
+
                         hasFunction = (string)(YamlScalarNode)commands_yaml[entry.Key]["HasFunction"] == "true";
                         hasMovement = (string)(YamlScalarNode)commands_yaml[entry.Key]["HasMovement"] == "true";
 

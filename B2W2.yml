@@ -108,7 +108,7 @@
     Name: StoreU32Global
     Parameters:
         - byte
-        - uint
+        - int
     HasFunction: false
     HasMovement: false
 
@@ -1108,7 +1108,7 @@
     Name: CMD_2E4
     Parameters:
         - ushort
-        - uint
+        - int
     HasFunction: false
     HasMovement: false
 
