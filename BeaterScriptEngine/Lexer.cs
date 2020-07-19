@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Data;
+using System.Runtime.Remoting.Messaging;
+using System.Runtime.CompilerServices;
 
 namespace BeaterScriptEngine
 {
@@ -16,47 +18,20 @@ namespace BeaterScriptEngine
 
         public ScriptLexer(string script, string game)
         {
-            // Initialize the script we will read from.
+            // Initialize the script we will write to.
             this.b = new BinaryWriter(File.Open(script, FileMode.OpenOrCreate));
             this.cmds = new CommandsListHandler(game);
         }
 
-        public void WriteScript(string text)
+        public void WriteScript(List<List<Command>> scripts, List<List<Command>> functions, List<List<Movement>> movements, string path)
         {
-            foreach (string line in text.Split('\n'))
-            {
-                string cmd;
-                try
-                {
-                    cmd = line.Substring(0, line.IndexOf("("));
-                }
-                catch (ArgumentOutOfRangeException)
-                {
-                    continue;
-                }
+            // Calculate size of header section. We will use this later.
+            uint header_size = (uint)(scripts.Count * 0x4) + 2;
 
-                b.Write(cmds.command_map[cmd]);
+            List<int> header = new List<int>();
 
-                // This means we actually have parameters.
-                int string_delta = line.IndexOf(")") - (line.IndexOf("(") + 1);
-
-                if (string_delta == 0)
-                    continue;
-
-                var parameters = line.Substring(line.IndexOf("(") + 1, string_delta);
-                var param_types = cmds.commands[cmds.command_map[cmd]];
-                int i = 0;
-                foreach (var num in parameters.Replace(" ", "").Split(','))
-                {
-                    if (param_types.Types[i] == typeof(uint))
-                        b.Write(uint.Parse(num));
-                    else if (param_types.Types[i] == typeof(ushort))
-                        b.Write(ushort.Parse(num));
-                    else if (param_types.Types[i] == typeof(byte))
-                        b.Write(byte.Parse(num));
-                    i++;
-                }
-            }
+            for (int i = 0; i < scripts.Count; i++)
+                header.Add(0x0);
             b.Close();
         }
 

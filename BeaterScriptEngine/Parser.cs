@@ -136,28 +136,29 @@ namespace BeaterScriptEngine
 
                 int originalPos = (int)b.BaseStream.Position;
 
-                var addr = c.HasFunction || c.HasMovement ? originalPos + (int)parameters.Last() : 0;
-
                 if (c.HasFunction)
                 {
+                    var addr = originalPos + (int)parameters.Last();
                     if (!parsed_functions.Contains(addr))
                     {
                         parsed_functions.Add(addr);
                         try
                         {
                             functions.Add(this.ReadScript(addr));
+                            Console.WriteLine($"A function was detected at {addr}.");
                         }
                         catch (Exception e)
                         {
-                            Console.WriteLine($"@Original position: {originalPos}\n@Addr Value: {addr - originalPos}");
+                            Console.WriteLine($"@ Original position: {originalPos}\n@ Address Value: {addr - originalPos}");
                             //throw e;
                         }
-                        Console.WriteLine($"A function was detected at {addr}.");
                     }
                     parameters[parameters.Count - 1] = $"Function{parsed_functions.IndexOf(addr)}";
                 }
-                else if (c.HasMovement)
+                
+                if (c.HasMovement)
                 {
+                    var addr = originalPos + (int)parameters.Last();
                     if (!parsed_movements.Contains(addr))
                     {
                         parsed_movements.Add(addr);

@@ -76,5 +76,67 @@ namespace BeaterScriptEngine
             return result.TrimEnd(' ') + ");";
         }
 
+        public uint Size()
+        {
+            // All command sizes are greater than 2.
+            uint size = 2;
+
+            foreach (Type t in Types)
+                switch (t.ToString())
+                {
+                    case "int":
+                        size += 4;
+                        break;
+                    case "ushort":
+                        size += 2;
+                        break;
+                    case "byte":
+                        size += 1;
+                        break;
+                    default:
+                        break;
+                }
+
+            return size;
+        }
+
+        public byte[] ToBytes()
+        {
+            CommandsListHandler c = new CommandsListHandler("B2W2");
+            byte[] buf = new byte[this.Size()];
+            buf[0] = Convert.ToByte(c.command_map[this.Name]);
+            buf[1] = Convert.ToByte(c.command_map[this.Name] << 0x8);
+
+            int i = 2;
+            int k = 0;
+
+            // Convert to byte array in little endian.
+            while (i < this.Size())
+            {
+                switch (Types[k].ToString())
+                {
+                    case "int":
+                        buf[i] = Convert.ToByte((int)this.Parameters[k] << 24);
+                        buf[i++] = Convert.ToByte((int)this.Parameters[k] << 16);
+                        buf[i++] = Convert.ToByte((int)this.Parameters[k] << 8);
+                        buf[i++] = Convert.ToByte((int)this.Parameters[k]);
+                        k++;
+                        break;
+                    case "ushort":
+                        buf[i] = Convert.ToByte((short)this.Parameters[k] << 8);
+                        buf[i++] = Convert.ToByte((short)this.Parameters[k]);
+                        k++;
+                        break;
+                    case "byte":
+                        buf[i] = (byte)this.Parameters[k];
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            return buf;
+        }
+
     }
 }

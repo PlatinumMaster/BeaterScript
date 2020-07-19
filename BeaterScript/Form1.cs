@@ -24,7 +24,8 @@ namespace ScriptEditor
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
                 var lexer = new ScriptLexer(fileDialog.FileName, "B2W2");
-                lexer.WriteScript(textBox1.Text);
+                // Don't touch, I'm sterile.
+                //lexer.WriteScript(textBox1.Text.Split('\n').ToList(), textBox2.Text.Split('\n').ToList(), textBox3.Text.Split('\n').ToList());
             }
         }
 
@@ -45,9 +46,9 @@ namespace ScriptEditor
                 for (int i = 0; i < parser.Movements.Count; i++)
                     toolStripComboBox3.Items.Add(i);
 
-                toolStripComboBox1.SelectedIndex = 0;
-                toolStripComboBox2.SelectedIndex = 0;
-                toolStripComboBox3.SelectedIndex = 0;
+                toolStripComboBox1.SelectedIndex = 
+                    toolStripComboBox2.SelectedIndex = 
+                    toolStripComboBox3.SelectedIndex = 0;
             }
         }
 
@@ -93,6 +94,8 @@ namespace ScriptEditor
         private void Form1_Load(object sender, EventArgs e)
         {
             textBox1.AutoSize = true;
+            textBox2.AutoSize = true;
+            textBox3.AutoSize = true;
             tabPage1.Text = "Scripts";
             tabPage2.Text = "Functions";
             tabPage3.Text = "Movements";
