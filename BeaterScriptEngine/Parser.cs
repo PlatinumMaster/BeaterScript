@@ -11,8 +11,8 @@ namespace BeaterScriptEngine
     {
         private BinaryReader b;
         private List<int> pointers { get; }
-        private List<List<Command>> scripts { get; }
-        private List<List<Command>> functions { get; }
+        private List<Script> scripts { get; }
+        private List<Script> functions { get; }
         private List<List<Movement>> movements { get; }
 
         private List<int> parsed_functions;
@@ -26,7 +26,7 @@ namespace BeaterScriptEngine
             this.cmds = new CommandsListHandler(game);
 
             this.pointers = new List<int>();
-            this.functions = new List<List<Command>>();
+            this.functions = new List<Script>();
             this.movements = new List<List<Movement>>();
             this.parsed_functions = new List<int>();
             this.parsed_movements = new List<int>();
@@ -44,7 +44,7 @@ namespace BeaterScriptEngine
             }
         }
 
-        public List<List<Command>> Functions
+        public List<Script> Functions
         {
             get
             {
@@ -52,7 +52,7 @@ namespace BeaterScriptEngine
             }
         }
 
-        public List<List<Command>> Scripts
+        public List<Script> Scripts
         {
             get
             {
@@ -103,9 +103,9 @@ namespace BeaterScriptEngine
             return movement;
         }
 
-        public List<Command> ReadScript(int address)
+        public Script ReadScript(int address)
         {
-            List<Command> script = new List<Command>();
+            Script script = new Script();
             bool isEnd = false;
             b.BaseStream.Position = address;
 
@@ -153,7 +153,7 @@ namespace BeaterScriptEngine
                             //throw e;
                         }
                     }
-                    parameters[parameters.Count - 1] = $"Function{parsed_functions.IndexOf(addr)}";
+                    //parameters[parameters.Count - 1] = $"Function{parsed_functions.IndexOf(addr)}";
                 }
                 
                 if (c.HasMovement)
@@ -165,7 +165,7 @@ namespace BeaterScriptEngine
                         movements.Add(this.ReadMovement(addr));
                         Console.WriteLine($"A movement was detected at {addr}.");
                     }
-                    parameters[parameters.Count - 1] = $"Movement{parsed_movements.IndexOf(addr)}";
+                    //parameters[parameters.Count - 1] = $"Movement{parsed_movements.IndexOf(addr)}";
                 }
 
                 c.Parameters = parameters.ToArray();
@@ -181,9 +181,9 @@ namespace BeaterScriptEngine
             return script;
         }
 
-        public List<List<Command>> ReadScripts()
+        public List<Script> ReadScripts()
         {
-            List<List<Command>> scripts = new List<List<Command>>();
+            List<Script> scripts = new List<Script>();
 
             foreach (int addr in Addresses)
                 scripts.Add(ReadScript(addr));

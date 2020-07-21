@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,6 +16,14 @@ namespace BeaterScriptEngine
         private bool hasMovement { get; }
 
         public Command(string name, bool hasFunction, bool hasMovement, params Type[] types)
+        {
+            this.name = name;
+            this.types = types;
+            this.hasFunction = hasFunction;
+            this.hasMovement = hasMovement;
+        }
+
+        public Command(string name, bool hasFunction, bool hasMovement, object[] parameters, params Type[] types)
         {
             this.name = name;
             this.types = types;
@@ -104,8 +113,8 @@ namespace BeaterScriptEngine
         {
             CommandsListHandler c = new CommandsListHandler("B2W2");
             byte[] buf = new byte[this.Size()];
-            buf[0] = Convert.ToByte(c.command_map[this.Name]);
-            buf[1] = Convert.ToByte(c.command_map[this.Name] << 0x8);
+            buf[0] = Convert.ToByte(c.command_map[this.Name] >> 0x8 & 0xFF);
+            buf[1] = Convert.ToByte(c.command_map[this.Name] & 0xFF);
 
             int i = 2;
             int k = 0;
@@ -113,22 +122,24 @@ namespace BeaterScriptEngine
             // Convert to byte array in little endian.
             while (i < this.Size())
             {
+                if (this.Parameters[k].GetType() == typeof(string))
+                    Parameters[k] = 0x3;
                 switch (Types[k].ToString())
                 {
                     case "int":
-                        buf[i] = Convert.ToByte((int)this.Parameters[k] << 24);
-                        buf[i++] = Convert.ToByte((int)this.Parameters[k] << 16);
-                        buf[i++] = Convert.ToByte((int)this.Parameters[k] << 8);
-                        buf[i++] = Convert.ToByte((int)this.Parameters[k]);
+                        buf[i] = Convert.ToByte((int)this.Parameters[k] >> 24);
+                        buf[i++] = Convert.ToByte((int)this.Parameters[k] >> 16);
+                        buf[i++] = Convert.ToByte((int)this.Parameters[k] >> 8);
+                        buf[i++] = Convert.ToByte((int)this.Parameters[k] & 0xFF);
                         k++;
                         break;
                     case "ushort":
-                        buf[i] = Convert.ToByte((short)this.Parameters[k] << 8);
-                        buf[i++] = Convert.ToByte((short)this.Parameters[k]);
+                        buf[i] = Convert.ToByte((short)this.Parameters[k] >> 8);
+                        buf[i++] = Convert.ToByte((short)this.Parameters[k] & 0xFF);
                         k++;
                         break;
                     case "byte":
-                        buf[i] = (byte)this.Parameters[k];
+                        buf[i] = Convert.ToByte((byte)this.Parameters[k] & 0xFF);
                         break;
                     default:
                         break;

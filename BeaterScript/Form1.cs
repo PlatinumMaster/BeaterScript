@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using BeaterScriptEngine;
 
@@ -23,9 +24,98 @@ namespace ScriptEditor
             fileDialog.Filter = "Generation V Script | *.bin";
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
-                var lexer = new ScriptLexer(fileDialog.FileName, "B2W2");
+                var currentScript = new Script();
+                var currentFunction = new Script();
+                var cmds = new CommandsListHandler("B2W2");
+
+                // Messy :(
+
+                // Save the current script
+                foreach (string line in textBox1.Text.Split('\n'))
+                {
+                    ushort idx;
+                    try
+                    {
+                        idx = cmds.command_map[line.Substring(0, line.IndexOf("("))];
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                        continue;
+                    }
+
+                    // This means we actually have parameters.
+                    if (line.IndexOf(")") - (line.IndexOf("(") + 1) == 0) 
+                        continue;
+
+                    var parameters = line.Substring(line.IndexOf("(") + 1, line.IndexOf(")") - (line.IndexOf("(") + 1));
+                    int i = 0;
+
+                    List<object> params_hex = new List<object>();
+
+                    foreach (var num in parameters.Replace(" ", "").Split(','))
+                    {
+                        if (cmds.commands[idx].Types[i] == typeof(uint))
+                            params_hex.Add(uint.Parse(num));
+                        else if (cmds.commands[idx].Types[i] == typeof(ushort))
+                            params_hex.Add(ushort.Parse(num));
+                        else if (cmds.commands[idx].Types[i] == typeof(byte))
+                            params_hex.Add(byte.Parse(num));
+                        i++;
+                    }
+                    bool isMovement = line.Substring(0, line.IndexOf("(")).Equals("ApplyMovement");
+                    bool isFunction = line.Substring(0, line.IndexOf("(")).Equals("ConditionalJump") 
+                        || line.Substring(0, line.IndexOf("(")).Equals("UnconditionalJump")
+                        || line.Substring(0, line.IndexOf("(")).Equals("CallRoutine");
+
+                    currentScript.Add(new Command(line.Substring(0, line.IndexOf("(")), isFunction, isMovement, params_hex.ToArray(), cmds.commands[idx].Types));
+                }
+
+                // Save the current function
+                foreach (string line in textBox2.Text.Split('\n'))
+                {
+                    ushort idx;
+                    try
+                    {
+                        idx = cmds.command_map[line.Substring(0, line.IndexOf("("))];
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+                        continue;
+                    }
+                    
+                    // Do a check to see if we have parameters. If this check is true, we do not have parameters.
+                    if (line.IndexOf(")") - (line.IndexOf("(") + 1) == 0) 
+                        continue;
+
+                    var parameters = line.Substring(line.IndexOf("(") + 1, line.IndexOf(")") - (line.IndexOf("(") + 1));
+                    int i = 0;
+
+                    List<object> params_hex = new List<object>();
+
+                    foreach (var num in parameters.Replace(" ", "").Split(','))
+                    {
+                        if (cmds.commands[idx].Types[i] == typeof(uint))
+                            params_hex.Add(uint.Parse(num));
+                        else if (cmds.commands[idx].Types[i] == typeof(ushort))
+                            params_hex.Add(ushort.Parse(num));
+                        else if (cmds.commands[idx].Types[i] == typeof(byte))
+                            params_hex.Add(byte.Parse(num));
+                        i++;
+                    }
+                    bool isMovement = line.Substring(0, line.IndexOf("(")).Equals("ApplyMovement");
+                    bool isFunction = line.Substring(0, line.IndexOf("(")).Equals("ConditionalJump") 
+                        || line.Substring(0, line.IndexOf("(")).Equals("UnconditionalJump")
+                        || line.Substring(0, line.IndexOf("(")).Equals("CallRoutine");
+
+                    currentFunction.Add(new Command(line.Substring(0, line.IndexOf("(")), isFunction, isMovement, params_hex.ToArray(), cmds.commands[idx].Types));
+                }
+
+                parser.Scripts[toolStripComboBox1.SelectedIndex] = currentScript;
+                parser.Functions[toolStripComboBox2.SelectedIndex] = currentFunction;
+
                 // Don't touch, I'm sterile.
-                //lexer.WriteScript(textBox1.Text.Split('\n').ToList(), textBox2.Text.Split('\n').ToList(), textBox3.Text.Split('\n').ToList());
+                var lexer = new ScriptLexer("test.bin", "B2W2");
+                lexer.WriteScript(parser.Scripts, parser.Functions, new List<List<Movement>>(), "test.bin");
             }
         }
 
@@ -61,7 +151,7 @@ namespace ScriptEditor
                 return;
             }
 
-            foreach (Command c in parser.Scripts[toolStripComboBox1.SelectedIndex])
+            foreach (Command c in parser.Scripts[toolStripComboBox1.SelectedIndex].getScript())
                 textBox1.Text += String.Format("{0}{1}", c.ToString(), Environment.NewLine);
         }
 
@@ -74,7 +164,7 @@ namespace ScriptEditor
                 return;
             }
 
-            foreach (Command c in parser.Functions[toolStripComboBox2.SelectedIndex])
+            foreach (Command c in parser.Functions[toolStripComboBox2.SelectedIndex].getScript())
                 textBox2.Text += String.Format("{0}{1}", c.ToString(), Environment.NewLine);
         }
 
