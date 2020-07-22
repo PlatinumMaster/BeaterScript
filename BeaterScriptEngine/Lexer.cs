@@ -14,7 +14,7 @@ namespace BeaterScriptEngine
     public class ScriptLexer
     {
         BinaryWriter b;
-        List<uint> pointers { get; set; }
+        List<int> pointers { get; set; }
         CommandsListHandler cmds;
 
         public ScriptLexer(string script, string game)
@@ -29,11 +29,10 @@ namespace BeaterScriptEngine
             uint location = (uint)(scripts.Count * 0x4) + 2; // Size of header section.
             Dictionary<string, uint> script_map = new Dictionary<string, uint>();
 
+            // Information gathering time.
             // For absolutely no reason, I will place all functions first. Problem?
             foreach (Script s in functions)
             {
-                foreach (byte[] cmd_hex in s.GetScriptBytes())
-                    b.Write(cmd_hex);
                 script_map.Add($"Function{functions.IndexOf(s)}", location);
                 location += s.GetScriptSize();
             }
@@ -41,9 +40,8 @@ namespace BeaterScriptEngine
             // Okay now we have scripts.
             foreach (Script s in scripts)
             {
-                foreach (byte[] cmd_hex in s.GetScriptBytes())
-                    b.Write(cmd_hex);
                 script_map.Add($"Script{scripts.IndexOf(s)}", location);
+                pointers.Add(location - 4 * scripts.IndexOf(s) - 4);
                 location += s.GetScriptSize();
             }
 
@@ -52,6 +50,18 @@ namespace BeaterScriptEngine
                 for (int i = 0; i < script_map.Count(); i++)
                     z.Write($"{script_map.Keys.ElementAt(i)} : {script_map[script_map.Keys.ElementAt(i)]}\n");
             }
+            
+            // Now we begin writing.
+            foreach (int pointer in pointers)
+                b.Write(BitConverter.GetBytes(pointer));
+            
+            foreach (Script s in functions)
+                foreach (byte[] cmd_hex in s.GetScriptBytes())
+                    b.Write(cmd_hex);
+            
+            foreach (Script s in scripts)
+                foreach (byte[] cmd_hex in s.GetScriptBytes())
+                    b.Write(cmd_hex);
 
             b.Close();
         }
