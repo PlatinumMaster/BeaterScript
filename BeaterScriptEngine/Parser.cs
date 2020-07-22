@@ -153,7 +153,6 @@ namespace BeaterScriptEngine
                             //throw e;
                         }
                     }
-                    //parameters[parameters.Count - 1] = $"Function{parsed_functions.IndexOf(addr)}";
                 }
                 
                 if (c.HasMovement)
@@ -165,7 +164,6 @@ namespace BeaterScriptEngine
                         movements.Add(this.ReadMovement(addr));
                         Console.WriteLine($"A movement was detected at {addr}.");
                     }
-                    //parameters[parameters.Count - 1] = $"Movement{parsed_movements.IndexOf(addr)}";
                 }
 
                 c.Parameters = parameters.ToArray();

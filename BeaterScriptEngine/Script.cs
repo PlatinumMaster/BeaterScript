@@ -23,22 +23,21 @@ namespace BeaterScriptEngine
             this.script_size += c.Size();
         }
 
-        public uint getScriptSize()
+        public uint GetScriptSize()
         {
             return this.script_size;
         }
 
-        public List<Command> getScript()
+        public List<Command> GetScript()
         {
             return this.commands;
         }
 
-        public byte[][] getScriptBytes()
+        public byte[][] GetScriptBytes()
         {
             List<byte[]> bytes = new List<byte[]>();
-            foreach (Command c in commands)
+            foreach (Command c in this.commands)
                 bytes.Add(c.ToBytes());
-
             return bytes.ToArray();
         }
     }

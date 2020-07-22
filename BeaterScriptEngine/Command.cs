@@ -14,19 +14,22 @@ namespace BeaterScriptEngine
         private Object[] parameters { get; set; }
         private bool hasFunction { get; }
         private bool hasMovement { get; }
+        private ushort id { get;  }
 
-        public Command(string name, bool hasFunction, bool hasMovement, params Type[] types)
+        public Command(string name, ushort id, bool hasFunction, bool hasMovement, params Type[] types)
         {
             this.name = name;
             this.types = types;
+            this.id = id;
             this.hasFunction = hasFunction;
             this.hasMovement = hasMovement;
         }
 
-        public Command(string name, bool hasFunction, bool hasMovement, object[] parameters, params Type[] types)
+        public Command(string name, ushort id, bool hasFunction, bool hasMovement, object[] parameters, params Type[] types)
         {
             this.name = name;
             this.types = types;
+            this.id = id;
             this.hasFunction = hasFunction;
             this.hasMovement = hasMovement;
         }
@@ -36,6 +39,14 @@ namespace BeaterScriptEngine
             get
             {
                 return this.name;
+            }
+        }
+
+        public ushort ID
+        {
+            get
+            {
+                return this.id;
             }
         }
 
@@ -91,15 +102,15 @@ namespace BeaterScriptEngine
             uint size = 2;
 
             foreach (Type t in Types)
-                switch (t.ToString())
+                switch (t.Name)
                 {
-                    case "int":
+                    case "Int32":
                         size += 4;
                         break;
-                    case "ushort":
+                    case "UInt16":
                         size += 2;
                         break;
-                    case "byte":
+                    case "Byte":
                         size += 1;
                         break;
                     default:
@@ -111,10 +122,10 @@ namespace BeaterScriptEngine
 
         public byte[] ToBytes()
         {
-            CommandsListHandler c = new CommandsListHandler("B2W2");
             byte[] buf = new byte[this.Size()];
-            buf[0] = Convert.ToByte(c.command_map[this.Name] >> 0x8 & 0xFF);
-            buf[1] = Convert.ToByte(c.command_map[this.Name] & 0xFF);
+            byte[] id_conv = BitConverter.GetBytes(ID);
+            buf[0] = id_conv[0];
+            buf[1] = id_conv[1];
 
             int i = 2;
             int k = 0;
@@ -122,28 +133,28 @@ namespace BeaterScriptEngine
             // Convert to byte array in little endian.
             while (i < this.Size())
             {
-                if (this.Parameters[k].GetType() == typeof(string))
-                    Parameters[k] = 0x3;
-                switch (Types[k].ToString())
+                byte[] conv;
+                switch (Types[k].Name)
                 {
-                    case "int":
-                        buf[i] = Convert.ToByte((int)this.Parameters[k] >> 24);
-                        buf[i++] = Convert.ToByte((int)this.Parameters[k] >> 16);
-                        buf[i++] = Convert.ToByte((int)this.Parameters[k] >> 8);
-                        buf[i++] = Convert.ToByte((int)this.Parameters[k] & 0xFF);
-                        k++;
+                    case "Int32":
+                        conv = BitConverter.GetBytes(Convert.ToInt32(this.Parameters[k]));
+                        buf[i++] = conv[0];
+                        buf[i++] = conv[1];
+                        buf[i++] = conv[2];
+                        buf[i++] = conv[3];
                         break;
-                    case "ushort":
-                        buf[i] = Convert.ToByte((short)this.Parameters[k] >> 8);
-                        buf[i++] = Convert.ToByte((short)this.Parameters[k] & 0xFF);
-                        k++;
+                    case "UInt16":
+                        conv = BitConverter.GetBytes(Convert.ToUInt16(this.Parameters[k]));
+                        buf[i++] = conv[0];
+                        buf[i++] = conv[1];
                         break;
-                    case "byte":
-                        buf[i] = Convert.ToByte((byte)this.Parameters[k] & 0xFF);
+                    case "Byte":
+                        buf[i++] = (byte)this.Parameters[k];
                         break;
                     default:
                         break;
                 }
+                k++;
             }
 
             return buf;

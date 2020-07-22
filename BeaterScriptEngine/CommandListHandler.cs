@@ -50,7 +50,7 @@ namespace BeaterScriptEngine
 
                     }
                     catch (KeyNotFoundException) {} // Ignore, as the command does not have parameters.
-                    commands.Add((ushort)entry.Key, new Command((string)commands_yaml[entry.Key]["Name"], hasFunction, hasMovement, types.ToArray()));
+                    commands.Add((ushort)entry.Key, new Command((string)commands_yaml[entry.Key]["Name"], (ushort)entry.Key, hasFunction, hasMovement, types.ToArray()));
                 }
             }
         }
