@@ -33,12 +33,38 @@ namespace BeaterScriptEngine
             return this.commands;
         }
 
-        public byte[][] GetScriptBytes()
+        public ScriptEnumerator GetEnumerator()
+        {  
+          return new ScriptEnumerator(this.commands);
+        }
+
+    /*
+    public byte[][] GetScriptBytes()
+    {
+        List<byte[]> bytes = new List<byte[]>();
+        foreach (Command c in this.commands)
+            bytes.Add(c.ToBytes());
+        return bytes.ToArray();
+    }
+    */
+
+    public class ScriptEnumerator
         {
-            List<byte[]> bytes = new List<byte[]>();
-            foreach (Command c in this.commands)
-                bytes.Add(c.ToBytes());
-            return bytes.ToArray();
+            int nIndex;
+            private List<Command> commands;
+            public ScriptEnumerator(List<Command> s)
+            {
+                commands = s;
+                nIndex = 0;
+            }
+
+            public bool MoveNext()
+            {
+                nIndex++;
+                return (nIndex < commands.Count);
+            }
+
+            public Command Current => commands[nIndex];
         }
     }
 }

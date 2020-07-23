@@ -9,9 +9,10 @@ namespace BeaterScriptEngine
     public class Movement
     {
         private string name { get; set; }
-        private short duration { get; set; }
+        private ushort duration { get; set; }
+        private ushort id{ get; set; }
 
-        public Movement(string name, short duration)
+        public Movement(string name, ushort id, ushort duration)
         {
             this.name = name;
             this.duration = duration;
@@ -29,7 +30,19 @@ namespace BeaterScriptEngine
             }
         }
 
-        public short Duration
+        public ushort ID
+        {
+            get
+            {
+                return this.ID;
+            }
+            set
+            {
+                this.id = value;
+            }
+        }
+
+        public ushort Duration
         {
             get
             {
@@ -44,6 +57,14 @@ namespace BeaterScriptEngine
         public override string ToString()
         {
             return $"{this.Name}({this.duration});";
+        }
+
+        public byte[] ToBytes()
+        {
+            var id_bytes = BitConverter.GetBytes((ushort)this.id);
+            var duration_bytes = BitConverter.GetBytes((ushort)this.duration);
+
+            return new byte[] { id_bytes[0], id_bytes[1], duration_bytes[0], duration_bytes[1] };
         }
 
     }

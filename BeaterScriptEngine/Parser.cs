@@ -91,7 +91,8 @@ namespace BeaterScriptEngine
 
             while (!isEnd)
             {
-                movement.Add(new Movement(b.ReadInt16().ToString(), b.ReadInt16()));
+                var idx = b.ReadUInt16();
+                movement.Add(new Movement(idx.ToString(), idx, b.ReadUInt16()));
 
                 if (b.ReadInt32() == 0xFE)
                     isEnd = true;
@@ -99,7 +100,7 @@ namespace BeaterScriptEngine
                     b.BaseStream.Position -= 0x4;
             }
 
-            movement.Add(new Movement("EndMovement", 0));
+            movement.Add(new Movement("EndMovement", 0xFE, 0));
             return movement;
         }
 
@@ -153,6 +154,7 @@ namespace BeaterScriptEngine
                             //throw e;
                         }
                     }
+                    parameters[parameters.Count - 1] = $"Function{parsed_functions.LastIndexOf(addr)}";
                 }
                 
                 if (c.HasMovement)
@@ -164,6 +166,7 @@ namespace BeaterScriptEngine
                         movements.Add(this.ReadMovement(addr));
                         Console.WriteLine($"A movement was detected at {addr}.");
                     }
+                    parameters[parameters.Count - 1] = $"Movement{parsed_movements.LastIndexOf(addr)}";
                 }
 
                 c.Parameters = parameters.ToArray();
