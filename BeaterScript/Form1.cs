@@ -24,8 +24,8 @@ namespace ScriptEditor
             fileDialog.Filter = "Generation V Script | *.bin";
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
-                var lexer = new ScriptLexer(fileDialog.FileName, "B2W2");
-                lexer.WriteScript(parser.Scripts, parser.Functions, parser.Movements);
+                //var lexer = new ScriptLexer(fileDialog.FileName, "B2W2");
+                //lexer.WriteScript(parser.Scripts, parser.Functions, parser.Movements);
             }
         }
 
@@ -61,7 +61,7 @@ namespace ScriptEditor
                 return;
             }
 
-            foreach (Command c in parser.Scripts[toolStripComboBox1.SelectedIndex].GetScript())
+            foreach (Command c in parser.Scripts[parser.Scripts.Keys.ElementAt(toolStripComboBox1.SelectedIndex)].Commands)
                 textBox1.Text += String.Format("{0}{1}", c.ToString(), Environment.NewLine);
         }
 
@@ -74,7 +74,7 @@ namespace ScriptEditor
                 return;
             }
 
-            foreach (Command c in parser.Functions[toolStripComboBox2.SelectedIndex].GetScript())
+            foreach (Command c in parser.Functions[parser.Functions.Keys.ElementAt(toolStripComboBox2.SelectedIndex)].Commands)
                 textBox2.Text += String.Format("{0}{1}", c.ToString(), Environment.NewLine);
         }
 
@@ -87,7 +87,7 @@ namespace ScriptEditor
                 return;
             }
 
-            foreach (Movement m in parser.Movements[toolStripComboBox3.SelectedIndex])
+            foreach (Movement m in parser.Movements[parser.Movements.Keys.ElementAt(toolStripComboBox3.SelectedIndex)])
                 textBox3.Text += String.Format("{0}{1}", m.ToString(), Environment.NewLine);
         }
 

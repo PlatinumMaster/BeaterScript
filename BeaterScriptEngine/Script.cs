@@ -8,46 +8,23 @@ namespace BeaterScriptEngine
 {
     public class Script
     {
-        private uint script_size;
-        private List<Command> commands;
+        public uint Size { get; set; }
+        public List<Command> Commands { get; }
 
         public Script()
         {
-            this.commands = new List<Command>();
-            this.script_size = 0;
+            Commands = new List<Command>();
+            Size = 0;
         }
 
         public void Add(Command c)
         {
-            this.commands.Add(c);
-            this.script_size += c.Size();
+            Commands.Add(c);
+            Size += c.Size();
         }
 
-        public uint GetScriptSize()
-        {
-            return this.script_size;
-        }
-
-        public List<Command> GetScript()
-        {
-            return this.commands;
-        }
-
-        public ScriptEnumerator GetEnumerator()
-        {  
-          return new ScriptEnumerator(this.commands);
-        }
-
-    /*
-    public byte[][] GetScriptBytes()
-    {
-        List<byte[]> bytes = new List<byte[]>();
-        foreach (Command c in this.commands)
-            bytes.Add(c.ToBytes());
-        return bytes.ToArray();
-    }
-    */
-
+        public ScriptEnumerator GetEnumerator() => new ScriptEnumerator(Commands);
+ 
     public class ScriptEnumerator
         {
             int nIndex;

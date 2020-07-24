@@ -30,7 +30,7 @@ namespace BeaterScriptEngine
         public void WriteScript(List<Script> scripts, List<Script> functions, List<List<Movement>> movements)
         {
             // Less messy. But... still messy.
-            uint location = (uint)scripts.Count * 0x4 + 2; // Size of header section.
+            uint location = Convert.ToUInt32(scripts.Count * 0x4 + 2); // Size of header section.
             Dictionary<string, uint> script_map = new Dictionary<string, uint>();
 
             // Information gathering time.
@@ -38,7 +38,7 @@ namespace BeaterScriptEngine
             foreach (Script s in functions)
             {
                 script_map.Add($"Function{functions.IndexOf(s)}", location);
-                location += s.GetScriptSize();
+                location += s.Size;
             }
 
             // Okay now we have scripts.
@@ -46,7 +46,7 @@ namespace BeaterScriptEngine
             {
                 script_map.Add($"Script{scripts.IndexOf(s)}", location);
                 pointers.Add(location - 4 * (uint)scripts.IndexOf(s) - 4);
-                location += s.GetScriptSize();
+                location += s.Size;
             }
 
             // Now the funky weirdo cousin, movements.
@@ -56,23 +56,25 @@ namespace BeaterScriptEngine
                 location += 0x4;
             }
 
+            // Time to write to the map.
             using (StreamWriter z = new StreamWriter(Path.Combine(Directory.GetParent(this.path).FullName, Path.GetFileNameWithoutExtension(this.path) + ".map")))
-                for (int i = 0; i < script_map.Count(); i++)
-                    z.Write($"{script_map.Keys.ElementAt(i)} : {script_map[script_map.Keys.ElementAt(i)]}\n");
+                foreach (KeyValuePair<string, uint> d in script_map)
+                    z.Write($"{d.Key} : {d.Value}\n");
             
+
             // Now we begin writing.
             foreach (uint pointer in pointers)
                 b.Write(BitConverter.GetBytes(pointer));
 
-            b.Write((ushort)0xFD13);
+            b.Write(Convert.ToUInt16(0xFD13));
 
-            location = (uint)scripts.Count * 0x4 + 2; // Size of header section.
+            location = Convert.ToUInt32(scripts.Count * 0x4 + 2); // Size of header section.
 
             foreach (Script s in functions)
                 foreach (Command c in s)
                 {
                     if (c.HasFunction || c.HasMovement)
-                        c.Parameters[c.Parameters.Length - 1] = script_map[(string)c.Parameters[c.Parameters.Length - 1]] - location - 4;
+                        c.Parameters[c.Parameters.Count - 1] = script_map[(string)c.Parameters[c.Parameters.Count - 1]] - location - 4;
                     b.Write(c.ToBytes());
                     location += c.Size();
                 }
@@ -81,7 +83,7 @@ namespace BeaterScriptEngine
                 foreach (Command c in s)
                 {
                     if (c.HasFunction || c.HasMovement)
-                        c.Parameters[c.Parameters.Length - 1] = script_map[(string)c.Parameters[c.Parameters.Length - 1]] - location - 4;
+                        c.Parameters[c.Parameters.Count - 1] = script_map[(string)c.Parameters[c.Parameters.Count - 1]] - location - 4;
                     b.Write(c.ToBytes());
                     location += c.Size();
                 }
