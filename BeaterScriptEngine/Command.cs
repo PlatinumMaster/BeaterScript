@@ -1,80 +1,85 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BeaterScriptEngine
 {
     public class Command
     {
-        private string name { get; }
-        private Type[] types { get; }
-        private Object[] parameters { get; set; }
-        private bool hasFunction { get; }
-        private bool hasMovement { get; }
+        public string Name { get; }
+        public Type[] Types { get; }
+        public bool HasFunction { get; }
+        public bool HasMovement { get; }
+        public ushort ID { get; }
+        public List<object> Parameters { get; set; }
 
-        public Command(string name, bool hasFunction, bool hasMovement, params Type[] types)
-        {
-            this.name = name;
-            this.types = types;
-            this.hasFunction = hasFunction;
-            this.hasMovement = hasMovement;
-        }
 
-        public string Name
+        public Command(string name, ushort id, bool hasFunction, bool hasMovement, params Type[] types)
         {
-            get
-            {
-                return this.name;
-            }
-        }
-
-        public Type[] Types
-        {
-            get
-            {
-                return this.types;
-            }
-        }
-
-        public Object[] Parameters
-        {
-            get
-            {
-                return this.parameters;
-            }
-            set
-            {
-                this.parameters = value;
-            }
-        }
-
-        public bool HasFunction
-        {
-            get
-            {
-                return hasFunction;
-            }
-        }
-
-        public bool HasMovement
-        {
-            get
-            {
-                return hasMovement;
-            }
+            Name = name;
+            Types = types;
+            ID = id;
+            Parameters = new List<object>();
+            HasFunction = hasFunction;
+            HasMovement = hasMovement;
         }
 
         public override string ToString()
         {
             string result = $"{this.Name}(";
 
-            for (int i = 0; i < Parameters.Length; i++)
-                result += Parameters[i] + (i != Parameters.Length - 1 ? ", " : "");
+            for (int i = 0; i < Parameters.Count; i++)
+                result += Parameters[i] + (i != Parameters.Count - 1 ? ", " : "");
 
             return result.TrimEnd(' ') + ");";
         }
 
+        public int Size()
+        {
+            // All command sizes are greater than 2.
+            int size = 2;
+
+            foreach (Type t in Types)
+                switch (t.Name)
+                {
+                    case "Int32":
+                        size += 4;
+                        break;
+                    case "UInt16":
+                        size += 2;
+                        break;
+                    case "Byte":
+                        size += 1;
+                        break;
+                    default:
+                        break;
+                }
+
+            return size;
+        }
+
+        public byte[] ToBytes()
+        {
+            byte[] buf = new byte[this.Size()];
+
+            Util.Deconstruct(out buf[0], out buf[1], BitConverter.GetBytes(ID));
+
+            // Convert to byte array in little endian.
+            int i = 2, k = 0;
+            while (i < this.Size())
+                switch (Types[k].Name)
+                {
+                    case "Int32":
+                        Util.Deconstruct(out buf[i++], out buf[i++], out buf[i++], out buf[i++], BitConverter.GetBytes((int)Parameters[k++]));
+                        break;
+                    case "UInt16":
+                        Util.Deconstruct(out buf[i++], out buf[i++], BitConverter.GetBytes((ushort)Parameters[k++]));
+                        break;
+                    case "Byte":
+                        buf[i++] = (byte)Parameters[k++];
+                        break;
+                }
+
+            return buf;
+        }
     }
 }

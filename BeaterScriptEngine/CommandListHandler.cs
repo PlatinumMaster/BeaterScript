@@ -30,7 +30,7 @@ namespace BeaterScriptEngine
                     {
                         var parameters = (YamlSequenceNode)commands_yaml[entry.Key]["Parameters"];
                         foreach (var p in parameters.Children)
-                            switch(p.ToString())
+                            switch (p.ToString())
                             {
                                 case "int":
                                     types.Add(typeof(int));
@@ -41,16 +41,14 @@ namespace BeaterScriptEngine
                                 case "byte":
                                     types.Add(typeof(byte));
                                     break;
-                                default:
-                                    break;
                             }
 
                         hasFunction = (string)(YamlScalarNode)commands_yaml[entry.Key]["HasFunction"] == "true";
                         hasMovement = (string)(YamlScalarNode)commands_yaml[entry.Key]["HasMovement"] == "true";
 
                     }
-                    catch (KeyNotFoundException) {} // Ignore, as the command does not have parameters.
-                    commands.Add((ushort)entry.Key, new Command((string)commands_yaml[entry.Key]["Name"], hasFunction, hasMovement, types.ToArray()));
+                    catch (KeyNotFoundException) { } // Ignore, as the command does not have parameters.
+                    commands.Add((ushort)entry.Key, new Command((string)commands_yaml[entry.Key]["Name"], (ushort)entry.Key, hasFunction, hasMovement, types.ToArray()));
                 }
             }
         }

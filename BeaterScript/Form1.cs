@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using BeaterScriptEngine;
+using System;
 using System.Linq;
 using System.Windows.Forms;
-using BeaterScriptEngine;
 
 namespace ScriptEditor
 {
@@ -24,7 +22,7 @@ namespace ScriptEditor
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
                 var lexer = new ScriptLexer(fileDialog.FileName, "B2W2");
-                lexer.WriteScript(textBox1.Text);
+                lexer.WriteScript(parser.Scripts.Values.ToList(), parser.Functions.Values.ToList(), parser.Movements.Values.ToList());
             }
         }
 
@@ -45,9 +43,9 @@ namespace ScriptEditor
                 for (int i = 0; i < parser.Movements.Count; i++)
                     toolStripComboBox3.Items.Add(i);
 
-                toolStripComboBox1.SelectedIndex = 0;
-                toolStripComboBox2.SelectedIndex = 0;
-                toolStripComboBox3.SelectedIndex = 0;
+                toolStripComboBox1.SelectedIndex =
+                    toolStripComboBox2.SelectedIndex =
+                    toolStripComboBox3.SelectedIndex = 0;
             }
         }
 
@@ -60,7 +58,7 @@ namespace ScriptEditor
                 return;
             }
 
-            foreach (Command c in parser.Scripts[toolStripComboBox1.SelectedIndex])
+            foreach (Command c in parser.Scripts[parser.Scripts.Keys.ElementAt(toolStripComboBox1.SelectedIndex)].Commands)
                 textBox1.Text += String.Format("{0}{1}", c.ToString(), Environment.NewLine);
         }
 
@@ -73,7 +71,7 @@ namespace ScriptEditor
                 return;
             }
 
-            foreach (Command c in parser.Functions[toolStripComboBox2.SelectedIndex])
+            foreach (Command c in parser.Functions[parser.Functions.Keys.ElementAt(toolStripComboBox2.SelectedIndex)].Commands)
                 textBox2.Text += String.Format("{0}{1}", c.ToString(), Environment.NewLine);
         }
 
@@ -86,13 +84,15 @@ namespace ScriptEditor
                 return;
             }
 
-            foreach (Movement m in parser.Movements[toolStripComboBox3.SelectedIndex])
+            foreach (Movement m in parser.Movements[parser.Movements.Keys.ElementAt(toolStripComboBox3.SelectedIndex)])
                 textBox3.Text += String.Format("{0}{1}", m.ToString(), Environment.NewLine);
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             textBox1.AutoSize = true;
+            textBox2.AutoSize = true;
+            textBox3.AutoSize = true;
             tabPage1.Text = "Scripts";
             tabPage2.Text = "Functions";
             tabPage3.Text = "Movements";

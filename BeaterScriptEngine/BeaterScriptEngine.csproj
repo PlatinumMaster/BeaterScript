@@ -7,8 +7,8 @@
     <ProjectGuid>{B585D741-4402-404C-B040-9C54C73E1AC9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Gen5Scripts</RootNamespace>
-    <AssemblyName>Gen5Scripts</AssemblyName>
+    <RootNamespace>BeaterScriptEngine</RootNamespace>
+    <AssemblyName>BeaterScriptEngine</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -64,6 +64,8 @@
     <Compile Include="Lexer.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Script.cs" />
+    <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
