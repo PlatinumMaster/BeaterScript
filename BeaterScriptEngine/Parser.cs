@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows.Controls;
 
 namespace BeaterScriptEngine
 {
@@ -123,7 +121,7 @@ namespace BeaterScriptEngine
                 else if (c.HasMovement)
                 {
                     if (!Movements.Keys.Contains(targetAddress))
-                    { 
+                    {
                         Movements.Add(targetAddress, new List<Movement>());
                         Movements[targetAddress] = ReadMovement(targetAddress);
                         Console.WriteLine($"A movement was detected at {targetAddress}.");
@@ -134,8 +132,9 @@ namespace BeaterScriptEngine
                 b.BaseStream.Position = originalPos;
                 script.Add(c);
 
-                if (c.Name.Equals("EndScript") || c.Name.Equals("UnconditionalJump") || c.Name.Equals("EndRoutine")) break;
-            }  
+                if (c.Name.Equals("EndScript") || c.Name.Equals("UnconditionalJump") || c.Name.Equals("EndRoutine"))
+                    break;
+            }
 
             return script;
         }
@@ -145,6 +144,7 @@ namespace BeaterScriptEngine
             Dictionary<int, Script> d = new Dictionary<int, Script>();
             foreach (int Address in Addresses)
                 d.Add(Address, ReadScript(Address));
+
             return d;
         }
 

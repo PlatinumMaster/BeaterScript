@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using BeaterScriptEngine;
+using System;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using BeaterScriptEngine;
 
 namespace ScriptEditor
 {
@@ -24,8 +21,8 @@ namespace ScriptEditor
             fileDialog.Filter = "Generation V Script | *.bin";
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
-                //var lexer = new ScriptLexer(fileDialog.FileName, "B2W2");
-                //lexer.WriteScript(parser.Scripts, parser.Functions, parser.Movements);
+                var lexer = new ScriptLexer(fileDialog.FileName, "B2W2");
+                lexer.WriteScript(parser.Scripts.Values.ToList(), parser.Functions.Values.ToList(), parser.Movements.Values.ToList());
             }
         }
 
@@ -46,8 +43,8 @@ namespace ScriptEditor
                 for (int i = 0; i < parser.Movements.Count; i++)
                     toolStripComboBox3.Items.Add(i);
 
-                toolStripComboBox1.SelectedIndex = 
-                    toolStripComboBox2.SelectedIndex = 
+                toolStripComboBox1.SelectedIndex =
+                    toolStripComboBox2.SelectedIndex =
                     toolStripComboBox3.SelectedIndex = 0;
             }
         }

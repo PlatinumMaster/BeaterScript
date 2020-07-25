@@ -8,7 +8,7 @@ namespace BeaterScriptEngine
 {
     public class Script
     {
-        public uint Size { get; set; }
+        public int Size { get; set; }
         public List<Command> Commands { get; }
 
         public Script()
@@ -23,6 +23,7 @@ namespace BeaterScriptEngine
             Size += c.Size();
         }
 
+        public bool Equals(Script s) => s.Commands.Equals(Commands);
         public ScriptEnumerator GetEnumerator() => new ScriptEnumerator(Commands);
  
     public class ScriptEnumerator

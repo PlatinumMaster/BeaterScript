@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BeaterScriptEngine
 {
@@ -37,10 +33,10 @@ namespace BeaterScriptEngine
             return result.TrimEnd(' ') + ");";
         }
 
-        public uint Size()
+        public int Size()
         {
             // All command sizes are greater than 2.
-            uint size = 2;
+            int size = 2;
 
             foreach (Type t in Types)
                 switch (t.Name)
@@ -64,7 +60,7 @@ namespace BeaterScriptEngine
         public byte[] ToBytes()
         {
             byte[] buf = new byte[this.Size()];
-            
+
             Util.Deconstruct(out buf[0], out buf[1], BitConverter.GetBytes(ID));
 
             // Convert to byte array in little endian.
@@ -79,7 +75,7 @@ namespace BeaterScriptEngine
                         Util.Deconstruct(out buf[i++], out buf[i++], BitConverter.GetBytes((ushort)Parameters[k++]));
                         break;
                     case "Byte":
-                        buf[i++] = (byte)this.Parameters[k++];
+                        buf[i++] = (byte)Parameters[k++];
                         break;
                 }
 

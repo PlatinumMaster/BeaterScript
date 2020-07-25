@@ -14,24 +14,24 @@ namespace BeaterScriptEngine
     public class ScriptLexer
     {
         BinaryWriter b;
-        List<uint> pointers { get; set; }
+        List<int> Pointers { get; set; }
         CommandsListHandler cmds;
         string path;
 
         public ScriptLexer(string script, string game)
         {
             // Initialize the script we will write to.
-            this.path = script;
-            this.b = new BinaryWriter(File.Open(script, FileMode.OpenOrCreate));
-            this.cmds = new CommandsListHandler(game);
-            this.pointers = new List<uint>();
+            path = script;
+            b = new BinaryWriter(File.Open(script, FileMode.OpenOrCreate));
+            cmds = new CommandsListHandler(game);
+            Pointers = new List<int>();
         }
 
         public void WriteScript(List<Script> scripts, List<Script> functions, List<List<Movement>> movements)
         {
             // Less messy. But... still messy.
-            uint location = Convert.ToUInt32(scripts.Count * 0x4 + 2); // Size of header section.
-            Dictionary<string, uint> script_map = new Dictionary<string, uint>();
+            int location = Convert.ToInt32(scripts.Count * 0x4 + 2); // Size of header section.
+            Dictionary<string, int> script_map = new Dictionary<string, int>();
 
             // Information gathering time.
             // For absolutely no reason, I will place all functions first. Problem?
@@ -45,7 +45,7 @@ namespace BeaterScriptEngine
             foreach (Script s in scripts)
             {
                 script_map.Add($"Script{scripts.IndexOf(s)}", location);
-                pointers.Add(location - 4 * (uint)scripts.IndexOf(s) - 4);
+                Pointers.Add(location - 4 * scripts.IndexOf(s) - 4);
                 location += s.Size;
             }
 
@@ -58,33 +58,49 @@ namespace BeaterScriptEngine
 
             // Time to write to the map.
             using (StreamWriter z = new StreamWriter(Path.Combine(Directory.GetParent(this.path).FullName, Path.GetFileNameWithoutExtension(this.path) + ".map")))
-                foreach (KeyValuePair<string, uint> d in script_map)
+                foreach (KeyValuePair<string, int> d in script_map)
                     z.Write($"{d.Key} : {d.Value}\n");
             
 
             // Now we begin writing.
-            foreach (uint pointer in pointers)
+            foreach (int pointer in Pointers)
                 b.Write(BitConverter.GetBytes(pointer));
 
             b.Write(Convert.ToUInt16(0xFD13));
 
-            location = Convert.ToUInt32(scripts.Count * 0x4 + 2); // Size of header section.
+            location = Convert.ToInt32(scripts.Count * 0x4 + 2); // Size of header section.
 
             foreach (Script s in functions)
                 foreach (Command c in s)
                 {
+                    string original = "";
                     if (c.HasFunction || c.HasMovement)
+                    {
+                        original = (string)c.Parameters[c.Parameters.Count - 1];
                         c.Parameters[c.Parameters.Count - 1] = script_map[(string)c.Parameters[c.Parameters.Count - 1]] - location - 4;
+                    }
                     b.Write(c.ToBytes());
+
+                    if (c.HasFunction || c.HasMovement)
+                        c.Parameters[c.Parameters.Count - 1] = original;
+
                     location += c.Size();
                 }
 
             foreach (Script s in scripts)
                 foreach (Command c in s)
                 {
+                    string original = "";
                     if (c.HasFunction || c.HasMovement)
+                    {
+                        original = (string)c.Parameters[c.Parameters.Count - 1];
                         c.Parameters[c.Parameters.Count - 1] = script_map[(string)c.Parameters[c.Parameters.Count - 1]] - location - 4;
+                    }
                     b.Write(c.ToBytes());
+
+                    if (c.HasFunction || c.HasMovement)
+                        c.Parameters[c.Parameters.Count - 1] = original;
+
                     location += c.Size();
                 }
 
