@@ -1,49 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
 
 namespace BeaterScriptEngine
 {
     public class Movement
     {
-        private string name { get; set; }
-        private short duration { get; set; }
+        private string Name { get; set; }
+        private ushort Duration { get; set; }
+        private ushort ID { get; set; }
 
-        public Movement(string name, short duration)
+        public Movement(string name, ushort id, ushort duration)
         {
-            this.name = name;
-            this.duration = duration;
+            Name = name;
+            ID = id;
+            Duration = duration;
         }
 
-        public string Name
-        {
-            get
-            {
-                return this.name;
-            }
-            set
-            {
-                this.name = value;
-            }
-        }
+        public override string ToString() => $"{Name}({Duration});";
 
-        public short Duration
+        public byte[] ToBytes()
         {
-            get
-            {
-                return this.duration;
-            }
-            set
-            {
-                this.duration = value;
-            }
-        }
+            var id_bytes = BitConverter.GetBytes(ID);
+            var duration_bytes = BitConverter.GetBytes(Duration);
 
-        public override string ToString()
-        {
-            return $"{this.Name}({this.duration});";
+            return new byte[] { id_bytes[0], id_bytes[1], duration_bytes[0], duration_bytes[1] };
         }
 
     }
