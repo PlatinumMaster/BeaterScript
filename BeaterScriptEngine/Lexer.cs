@@ -22,7 +22,7 @@ namespace BeaterScriptEngine
         {
             // Initialize the script we will write to.
             path = script;
-            b = new BinaryWriter(File.Open(script, FileMode.OpenOrCreate));
+            b = new BinaryWriter(File.Open(script, FileMode.Open));
             cmds = new CommandsListHandler(game);
             Pointers = new List<int>();
         }
@@ -77,7 +77,7 @@ namespace BeaterScriptEngine
                     if (c.HasFunction || c.HasMovement)
                     {
                         original = (string)c.Parameters[c.Parameters.Count - 1];
-                        c.Parameters[c.Parameters.Count - 1] = script_map[(string)c.Parameters[c.Parameters.Count - 1]] - location - 4;
+                        c.Parameters[c.Parameters.Count - 1] = script_map[c.Parameters.Last().ToString()] - location - 4;
                     }
                     b.Write(c.ToBytes());
 
@@ -94,7 +94,7 @@ namespace BeaterScriptEngine
                     if (c.HasFunction || c.HasMovement)
                     {
                         original = (string)c.Parameters[c.Parameters.Count - 1];
-                        c.Parameters[c.Parameters.Count - 1] = script_map[(string)c.Parameters[c.Parameters.Count - 1]] - location - 4;
+                        c.Parameters[c.Parameters.Count - 1] = script_map[c.Parameters.Last().ToString()] - location - 4;
                     }
                     b.Write(c.ToBytes());
 

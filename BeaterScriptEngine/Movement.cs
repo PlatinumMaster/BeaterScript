@@ -7,6 +7,7 @@ namespace BeaterScriptEngine
         private string Name { get; set; }
         private ushort Duration { get; set; }
         private ushort ID { get; set; }
+        private byte[] Bytes { get; set; }
 
         public Movement(string name, ushort id, ushort duration)
         {

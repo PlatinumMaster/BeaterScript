@@ -33,7 +33,7 @@ namespace BeaterScriptEngine
             public ScriptEnumerator(List<Command> s)
             {
                 commands = s;
-                nIndex = 0;
+                nIndex = -1;
             }
 
             public bool MoveNext()
