@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 
 namespace BeaterScriptEngine
 {
@@ -81,6 +82,7 @@ namespace BeaterScriptEngine
                 {
                     // This may not be an unimplemented command. It could very well be some arbitrary binary.
                     Console.WriteLine($"Unimplemented command: {id}");
+                    Console.WriteLine($"Position: {b.BaseStream.Position - 2}");
                     continue;
                 }
 
@@ -105,16 +107,9 @@ namespace BeaterScriptEngine
                 {
                     if (!Functions.Keys.ToList().Contains(targetAddress))
                     {
-                        try
-                        {
-                            Functions.Add(targetAddress, new Script());
-                            Functions[targetAddress] = ReadScript(targetAddress);
-                            Console.WriteLine($"A function was detected at {targetAddress}.");
-                        }
-                        catch (Exception)
-                        {
-                            Console.WriteLine($"@ Original position: {originalPos}\n@ Address Value: {targetAddress - originalPos}");
-                        }
+                        Functions.Add(targetAddress, new Script());
+                        Functions[targetAddress] = ReadScript(targetAddress);
+                        Console.WriteLine($"A function was detected at {targetAddress}.");
                     }
                     c.Parameters[c.Parameters.Count - 1] = $"Function{Functions.Keys.ToList().IndexOf(targetAddress)}";
                 }

@@ -299,8 +299,7 @@
     Name: UnlockAll
 
 0x30:
-    Name: WaitMoment
-
+    Name: ExecuteSpecialEvent
 0x31:
     Name: WaitKeypressAB
 
@@ -463,6 +462,8 @@
 
 0x4c:
     Name: OTNameToStrbuf
+    Parameters:
+        - byte
 
 0x54:
     Name: SetVarPartyPokemonNick
@@ -537,6 +538,14 @@
     HasFunction: false
     HasMovement: false
 
+0x6A:
+    Name: CMD_6A
+    Parameters:
+        - ushort
+        - ushort
+    HasFunction: false
+    HasMovement: false
+    
 0x6b:
     Name: AddNPC
     Parameters:
@@ -663,19 +672,18 @@
     HasFunction: false
     HasMovement: false
 
-0xb0:
+0xB0:
     Name: PauseAndClose
 
-0xb1:
+0xB1:
     Name: PauseAndClose2
 
-0xb2:
+0xB2:
     Name: Menu
     Parameters:
         - byte
         - byte
-        - byte
-        - byte
+        - ushort
         - byte
         - ushort
     HasFunction: false
@@ -693,12 +701,6 @@
 
 0xb4:
     Name: WaitFade
-    Parameters:
-        - ushort
-        - ushort
-        - ushort
-    HasFunction: false
-    HasMovement: false
 
 0xb7:
     Name: CheckItemBagSpace
@@ -894,14 +896,10 @@
     Parameters:
         - ushort
         - ushort
-        - ushort
-        - ushort
-        - ushort
-        - ushort
-        - ushort
-        - ushort
-        - ushort
-        - ushort
+        - int
+        - int
+        - int
+        - int
         - ushort
     HasFunction: false
     HasMovement: false
@@ -920,14 +918,13 @@
     Name: ResetCamera
     Parameters:
         - ushort
-        - ushort
     HasFunction: false
     HasMovement: false
 
-0x14a:
+0x14A:
     Name: CallEnd
 
-0x14b:
+0x14B:
     Name: CallStart
 
 0x151:
@@ -971,8 +968,7 @@
 0x19a:
     Name: CMD_19A
     Parameters:
-        - byte
-        - byte
+        - ushort
     HasFunction: false
     HasMovement: false
 
@@ -1033,6 +1029,14 @@
 0x1f2:
     Name: CMD_1F2
 
+0x209:
+    Name: CMD_209
+    Parameters:
+        - ushort
+        - ushort
+    HasFunction: false
+    HasMovement: false
+    
 0x227:
     Name: CMD_227
     Parameters:
@@ -1042,7 +1046,7 @@
     HasMovement: false
 
 0x24f:
-    Name: CMD_24F
+    Name: DetachNPCPair
     Parameters:
         - ushort
         - ushort
@@ -1104,11 +1108,13 @@
     HasFunction: false
     HasMovement: false
 
-0x2e4:
-    Name: CMD_2E4
+0x2e5:
+    Name: GenerateHollowFromVars
     Parameters:
         - ushort
-        - int
+        - ushort
+        - ushort
+        - ushort
     HasFunction: false
     HasMovement: false
 
