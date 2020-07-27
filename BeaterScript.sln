@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeaterScript", "BeaterScript\BeaterScript.csproj", "{93F2E673-5F5A-4914-93C2-6A35638C0B07}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeaterScriptEngine", "BeaterScriptEngine\BeaterScriptEngine.csproj", "{B585D741-4402-404C-B040-9C54C73E1AC9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeaterScript", "BeaterScript.csproj", "{7136F3D8-C0A6-4471-B3DB-3F42A0E046C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,19 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{93F2E673-5F5A-4914-93C2-6A35638C0B07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{93F2E673-5F5A-4914-93C2-6A35638C0B07}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{93F2E673-5F5A-4914-93C2-6A35638C0B07}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{93F2E673-5F5A-4914-93C2-6A35638C0B07}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B585D741-4402-404C-B040-9C54C73E1AC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B585D741-4402-404C-B040-9C54C73E1AC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B585D741-4402-404C-B040-9C54C73E1AC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B585D741-4402-404C-B040-9C54C73E1AC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7136F3D8-C0A6-4471-B3DB-3F42A0E046C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7136F3D8-C0A6-4471-B3DB-3F42A0E046C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7136F3D8-C0A6-4471-B3DB-3F42A0E046C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7136F3D8-C0A6-4471-B3DB-3F42A0E046C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {09BE1901-D317-487D-930E-82C152972376}
+		SolutionGuid = {F3EB66CA-633F-4346-98CC-B818A5BD0C21}
 	EndGlobalSection
 EndGlobal

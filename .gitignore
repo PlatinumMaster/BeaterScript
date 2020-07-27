@@ -1,6 +1,3 @@
 .vs/*
-BeaterScriptEngine/bin/*
-BeaterScriptEngine/obj/*
-BeaterScript/bin/*
-BeaterScript/obj/*
-packages/*
+bin/*
+obj/*

@@ -16,7 +16,7 @@ namespace BeaterScriptEngine
             Duration = duration;
         }
 
-        public override string ToString() => $"{Name}({Duration});";
+        public override string ToString() => $"Movement {Name} {Duration};";
 
         public byte[] ToBytes()
         {
