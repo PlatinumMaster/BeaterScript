@@ -1,20 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BeaterScript
 {
     class Program
     {
-        //  <summary>
-        //  The main entry point for the application.
-        //  </summary>
-
         static void Main(string[] args)
         {
             try 
@@ -24,6 +15,7 @@ namespace BeaterScript
                     case "-d":
                         ScriptParser p = new ScriptParser(args[1], args[2]);
                         ScriptLexer l = new ScriptLexer(p.Scripts, p.Functions, p.Movements, args[3], args[2]);
+                        Util.GenerateCommandASM(args[2]);
                         break;
                     case "-g":
                         Util.GenerateCommandASM(args[1]);

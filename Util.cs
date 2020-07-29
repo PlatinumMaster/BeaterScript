@@ -38,6 +38,12 @@ namespace BeaterScript
                     $"\\label:{Environment.NewLine}" +
                     $".endm{Environment.NewLine}");
 
+                // FunctionLabel: Declares a a new function label. Needed for padding.
+                o.WriteLine($".macro FunctionLabel label{Environment.NewLine}" +
+                    $".align 4{Environment.NewLine}" +
+                    $"\\label:{Environment.NewLine}" +
+                    $".endm{Environment.NewLine}");
+
                 // Write all of the commands from the YAML.
                 o.WriteLine($"@ -----------------");
                 o.WriteLine($"@ Script Commands");
