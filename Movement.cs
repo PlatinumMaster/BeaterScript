@@ -1,13 +1,10 @@
-using System;
-
-namespace BeaterScriptEngine
+namespace BeaterScript
 {
     public class Movement
     {
         private string Name { get; set; }
         private ushort Duration { get; set; }
         private ushort ID { get; set; }
-        private byte[] Bytes { get; set; }
 
         public Movement(string name, ushort id, ushort duration)
         {
@@ -16,15 +13,6 @@ namespace BeaterScriptEngine
             Duration = duration;
         }
 
-        public override string ToString() => $"Movement {Name} {Duration};";
-
-        public byte[] ToBytes()
-        {
-            var id_bytes = BitConverter.GetBytes(ID);
-            var duration_bytes = BitConverter.GetBytes(Duration);
-
-            return new byte[] { id_bytes[0], id_bytes[1], duration_bytes[0], duration_bytes[1] };
-        }
-
+        public override string ToString() => $"Movement {Name ?? ID.ToString()} {Duration}";
     }
 }

@@ -1,107 +1,59 @@
-﻿/*
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-using System.Data;
-using System.Runtime.Remoting.Messaging;
-using System.Runtime.CompilerServices;
-using System.Collections;
 
-namespace BeaterScriptEngine
+namespace BeaterScript
 {
     public class ScriptLexer
     {
-        BinaryWriter b;
-        List<int> Pointers { get; set; }
-        CommandsListHandler cmds;
-        string path;
+        readonly CommandsListHandler cmds;
 
-        public ScriptLexer(string script, string game)
+        public ScriptLexer(Dictionary<int, Script> scripts, Dictionary<int, Script> functions, Dictionary<int, List<Movement>> movements, string script, string game)
         {
-            // Initialize the script we will write to.
-            path = script;
-            b = new BinaryWriter(File.Open(script, FileMode.Open));
             cmds = new CommandsListHandler(game);
-            Pointers = new List<int>();
+            WriteScript(scripts, functions, movements, script, game);
         }
 
-        public void WriteScript(List<Script> scripts, List<Script> functions, List<List<Movement>> movements)
+        public void WriteScript(Dictionary<int, Script> scripts, Dictionary<int, Script> functions, Dictionary<int, List<Movement>> movements, string script, string game)
         {
-            // Less messy. But... still messy.
-            int location = Convert.ToInt32(scripts.Count * 0x4 + 2) - 1; // Size of header section.
-            Dictionary<string, int> script_map = new Dictionary<string, int>();
-
-            // Information gathering time.
-            // For absolutely no reason, I will place all functions first. Problem?
-            foreach (Script s in functions)
+            using (System.IO.StreamWriter o = new System.IO.StreamWriter(script))
             {
-                script_map.Add($"Function{functions.IndexOf(s)}", location);
-                location += s.Size;
-            }
+                // Write the inclusion stuff.
+                o.WriteLine($".include \"{game}.s\"{System.Environment.NewLine}");
 
-            // Okay now we have scripts.
-            foreach (Script s in scripts)
-            {
-                script_map.Add($"Script{scripts.IndexOf(s)}", location);
-                Pointers.Add(location - 4 * (scripts.IndexOf(s) + 1) + 1);
-                location += s.Size;
-            }
+                // Write the header.
+                o.WriteLine("Header:");
+                for (int i = 0; i < scripts.Count; i++)
+                    o.WriteLine($"\tscript Script{i}");
+                o.WriteLine($"  EndHeader{System.Environment.NewLine}");
 
-            // Now the funky weirdo cousin, movements.
-            foreach (List<Movement> m in movements)
-            {
-                script_map.Add($"Movement{movements.IndexOf(m)}", location);
-                location += 0x4;
-            }
-
-            // Time to write to the map.
-            using (StreamWriter z = new StreamWriter(Path.Combine(Directory.GetParent(path).FullName, Path.GetFileNameWithoutExtension(path) + ".map")))
-                foreach (KeyValuePair<string, int> d in script_map)
-                    z.Write($"{d.Key} : {d.Value}\n");
-
-            // Now we begin writing.
-            foreach (int pointer in Pointers)
-                b.Write(BitConverter.GetBytes(pointer));
-
-            b.Write(Convert.ToUInt16(0xFD13));
-
-            foreach (Script s in functions)
-                foreach (Command c in s)
+                // Start writing the command section.
+                for (int i = 0; i < functions.Count; i++)
                 {
-                    if (c.HasFunction || c.HasMovement) {
-                        var original = c.Parameters.Last();
-                        c.Parameters[c.Parameters.Count - 1] = script_map[c.Parameters.Last().ToString()] - (int)b.BaseStream.Position - 1;
-                        b.Write(c.ToBytes());
-                        c.Parameters[c.Parameters.Count - 1] = original;
-                    }
-                    else
-                        b.Write(c.ToBytes());
+                    o.WriteLine($"Function{i}:");
+                    for (int j = 0; j < functions[functions.ElementAt(i).Key].Commands.Count; j++)
+                        o.WriteLine($"\t{functions[functions.ElementAt(i).Key].Commands[j]}");
+                    o.WriteLine($"{System.Environment.NewLine}");
                 }
 
-            foreach (Script s in scripts)
-                foreach (Command c in s)
+                for (int i = 0; i < scripts.Count; i++)
                 {
-                    if (c.HasFunction || c.HasMovement) {
-                        var original = c.Parameters.Last();
-                        c.Parameters[c.Parameters.Count - 1] = script_map[c.Parameters.Last().ToString()] - (int)b.BaseStream.Position - 1;
-                        b.Write(c.ToBytes());
-                        c.Parameters[c.Parameters.Count - 1] = original;
-                    }
-                    else
-                        b.Write(c.ToBytes());
+                    o.WriteLine($"Script{i}:");
+                    for (int j = 0; j < scripts[scripts.ElementAt(i).Key].Commands.Count; j++)
+                        o.WriteLine($"\t{scripts[scripts.ElementAt(i).Key].Commands[j]}");
+                    o.WriteLine($"{System.Environment.NewLine}");
                 }
 
-            foreach (List<Movement> movement in movements)
-                foreach (Movement m in movement)
-                    b.Write(m.ToBytes());
-
-            // Should be good. Let's hope...
-            b.Close();
+                // Finish off with movements.
+                for (int i = 0; i < movements.Count; i++)
+                {
+                    o.WriteLine($"MovementLabel Movement{i}");
+                    for (int j = 0; j < movements[movements.ElementAt(i).Key].Count; j++)
+                        o.WriteLine($"\t{movements[movements.ElementAt(i).Key][j]}");
+                    o.WriteLine($"{System.Environment.NewLine}");
+                }
+            }
         }
 
     }
 }
-*/

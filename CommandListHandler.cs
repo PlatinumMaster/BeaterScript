@@ -4,7 +4,7 @@ using System.IO;
 using YamlDotNet.RepresentationModel;
 using YamlDotNet.Serialization;
 
-namespace BeaterScriptEngine
+namespace BeaterScript
 {
     public class CommandsListHandler
     {
