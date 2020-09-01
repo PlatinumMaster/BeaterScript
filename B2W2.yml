@@ -269,7 +269,7 @@
     HasMovement: false
 
 0x2b:
-    Name: MultiplyVar1
+    Name: MultiplyVar
     Parameters:
         - ushort
         - ushort
@@ -277,7 +277,7 @@
     HasMovement: false
 
 0x2c:
-    Name: DivideVar1
+    Name: DivideVar
     Parameters:
         - ushort
         - ushort
@@ -285,7 +285,7 @@
     HasMovement: false
 
 0x2d:
-    Name: ModulusVar1
+    Name: ModulusVar
     Parameters:
         - ushort
         - ushort
@@ -414,6 +414,10 @@
 
 0x45:
     Name: CheckerMessage
+    Parameters:
+        - ushort
+    HasFunction: false
+    HasMovement: false
 
 0x46:
     Name: CloseCheckerMessage
@@ -440,7 +444,7 @@
 0x49:
     Name: VersionSpecificMessage
     Parameters:
-        - ushort
+        - ushort  
         - ushort
         - ushort
         - ushort
