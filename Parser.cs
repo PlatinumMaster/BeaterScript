@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
-using System.Net;
 
 namespace BeaterScript
 {
     public class ScriptParser
     {
-        private BinaryReader b;
+        private readonly BinaryReader b;
+        private readonly CommandsListHandler Handler;
+
         public List<int> Addresses { get; }
         public Dictionary<int, Script> Scripts { get; }
         public Dictionary<int, Script> Functions { get; }
         public Dictionary<int, List<Movement>> Movements { get; }
-        CommandsListHandler Handler;
 
         public ScriptParser(string script, string game)
         {
@@ -72,21 +73,11 @@ namespace BeaterScript
             while (true)
             {
                 var id = b.ReadUInt16();
-                Command c;
-                try
-                {
-                    var def = Handler.commands[id];
-                    c = new Command(def.Name, def.ID, def.HasFunction, def.HasMovement, def.Types);
-                }
-                catch (KeyNotFoundException)
-                {
-                    // This may not be an unimplemented command. It could very well be some arbitrary binary.
-                    Console.WriteLine($"WARNING: Unimplemented command: {id}");
-                    Console.WriteLine($"Position: {b.BaseStream.Position - 2}");
+                if (!TryGetCommand(id, out var c))
                     continue;
-                }
 
                 foreach (Type t in c.Types)
+                {
                     switch (t.Name)
                     {
                         case "Int32":
@@ -99,6 +90,7 @@ namespace BeaterScript
                             c.Parameters.Add(b.ReadByte());
                             break;
                     }
+                }
 
                 int originalPos = Convert.ToInt32(b.BaseStream.Position);
                 int targetAddress = c.HasFunction || c.HasMovement ? originalPos + Convert.ToInt32(c.Parameters.Last()) : 0;
@@ -111,7 +103,7 @@ namespace BeaterScript
                         Functions[targetAddress] = ReadScript(targetAddress);
                         Console.WriteLine($"A function was detected at {targetAddress}.");
                     }
-                    c.Parameters[c.Parameters.Count - 1] = $"Function{Functions.Keys.ToList().IndexOf(targetAddress)}";
+                    c.Parameters[^1] = $"Function{Functions.Keys.ToList().IndexOf(targetAddress)}";
                 }
                 else if (c.HasMovement)
                 {
@@ -121,7 +113,7 @@ namespace BeaterScript
                         Movements[targetAddress] = ReadMovement(targetAddress);
                         Console.WriteLine($"A movement was detected at {targetAddress}.");
                     }
-                    c.Parameters[c.Parameters.Count - 1] = $"Movement{Movements.Keys.ToList().IndexOf(targetAddress)}";
+                    c.Parameters[^1] = $"Movement{Movements.Keys.ToList().IndexOf(targetAddress)}";
                 }
 
                 b.BaseStream.Position = originalPos;
@@ -134,14 +126,27 @@ namespace BeaterScript
             return script;
         }
 
-        public Dictionary<int, Script> ReadScripts()
+        private bool TryGetCommand(ushort id, [NotNullWhen(true)] out Command? c)
         {
-            Dictionary<int, Script> d = new Dictionary<int, Script>();
-            foreach (int Address in Addresses)
-                d.Add(Address, ReadScript(Address));
-
-            return d;
+            try
+            {
+                var def = Handler.commands[id];
+                c = new Command(def.Name, def.ID, def.HasFunction, def.HasMovement, def.Types);
+                return true;
+            }
+            catch (KeyNotFoundException)
+            {
+                // This may not be an unimplemented command. It could very well be some arbitrary binary.
+                Console.WriteLine($"WARNING: Unimplemented command: {id}");
+                Console.WriteLine($"Position: {b.BaseStream.Position - 2}");
+                c = null;
+                return false;
+            }
         }
 
+        public Dictionary<int, Script> ReadScripts()
+        {
+            return Addresses.ToDictionary(Address => Address, ReadScript);
+        }
     }
 }
