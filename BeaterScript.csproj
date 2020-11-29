@@ -4,6 +4,8 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Authors>PlatinumMaster</Authors>
+    <Nullable>enable</Nullable>
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
