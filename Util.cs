@@ -11,36 +11,41 @@
 
             // Script: For the purpose of declaring each script in the header.
             o.WriteLine(
-                @".macro script, address
-                .word  \\address - . - 4
-                .endm");
+            @".macro script, address
+.word  \address - . - 4
+.endm");
+            o.WriteLine();
 
             // EndHeader: Declares the end of the header section.
             o.WriteLine(
-                @".macro EndHeader
-                .hword 0xFD13
-                .endm");
+            @".macro EndHeader
+.hword 0xFD13
+.endm");
+            o.WriteLine();
 
             // Movement: Declares a new movement instruction.
             o.WriteLine(
-                @".macro Movement x y
-                .hword \\x
-                .hword \\y
-                .endm");
+            @".macro Movement x y
+.hword \x
+.hword \y
+.endm");
+            o.WriteLine();
 
             // MovementLabel: Declares a a new movement label. Needed for padding.
             o.WriteLine(
-                @".macro MovementLabel label
-                .align 4
-                \\label:
-                .endm");
+            @".macro MovementLabel label
+.align 4
+\label:
+.endm");
+            o.WriteLine();
 
             // FunctionLabel: Declares a a new function label. Needed for padding.
             o.WriteLine(
-                @".macro FunctionLabel label
-                .align 4
-                \\label:
-                .endm");
+            @".macro FunctionLabel label
+.align 4
+\label:
+.endm");
+            o.WriteLine();
 
             // Write all of the commands from the YAML.
             o.WriteLine("@ -----------------");
@@ -51,10 +56,8 @@
                 o.Write($".macro {c.Name} ");
                 for (int i = 0; i < c.Types.Count; i++)
                     o.Write($"p{i}{(i == c.Types.Count - 1 ? "" : ",")} ");
-
-                o.WriteLine(
-                    @"
-                    .hword {c.ID}");
+                o.WriteLine();
+                o.WriteLine($".hword {c.ID}");
 
                 int j = 0;
                 foreach (var type in c.Types)

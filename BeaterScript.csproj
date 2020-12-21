@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /y $(SolutionDir)B2W2.yml  $(ProjectDir)$(OutDir)" />
+    <Exec Command="xcopy /y $(SolutionDir)*.yml  $(ProjectDir)$(OutDir)" />
   </Target>
 
 </Project>
