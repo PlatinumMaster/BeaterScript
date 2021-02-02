@@ -1,0 +1,16 @@
+D:\Game Modding\Tools\NDS\BeaterScript\CLI\bin\Debug\netcoreapp3.1\BeaterScriptCLI.exe
+D:\Game Modding\Tools\NDS\BeaterScript\CLI\bin\Debug\netcoreapp3.1\BeaterScriptCLI.deps.json
+D:\Game Modding\Tools\NDS\BeaterScript\CLI\bin\Debug\netcoreapp3.1\BeaterScriptCLI.runtimeconfig.json
+D:\Game Modding\Tools\NDS\BeaterScript\CLI\bin\Debug\netcoreapp3.1\BeaterScriptCLI.runtimeconfig.dev.json
+D:\Game Modding\Tools\NDS\BeaterScript\CLI\bin\Debug\netcoreapp3.1\BeaterScriptCLI.dll
+D:\Game Modding\Tools\NDS\BeaterScript\CLI\bin\Debug\netcoreapp3.1\BeaterScriptCLI.pdb
+D:\Game Modding\Tools\NDS\BeaterScript\CLI\bin\Debug\netcoreapp3.1\YamlDotNet.dll
+D:\Game Modding\Tools\NDS\BeaterScript\CLI\bin\Debug\netcoreapp3.1\BeaterScript.dll
+D:\Game Modding\Tools\NDS\BeaterScript\CLI\bin\Debug\netcoreapp3.1\BeaterScript.pdb
+D:\Game Modding\Tools\NDS\BeaterScript\CLI\obj\Debug\netcoreapp3.1\BeaterScriptCLI.csproj.CoreCompileInputs.cache
+D:\Game Modding\Tools\NDS\BeaterScript\CLI\obj\Debug\netcoreapp3.1\BeaterScriptCLI.AssemblyInfoInputs.cache
+D:\Game Modding\Tools\NDS\BeaterScript\CLI\obj\Debug\netcoreapp3.1\BeaterScriptCLI.AssemblyInfo.cs
+D:\Game Modding\Tools\NDS\BeaterScript\CLI\obj\Debug\netcoreapp3.1\BeaterScriptCLI.csproj.CopyComplete
+D:\Game Modding\Tools\NDS\BeaterScript\CLI\obj\Debug\netcoreapp3.1\BeaterScriptCLI.dll
+D:\Game Modding\Tools\NDS\BeaterScript\CLI\obj\Debug\netcoreapp3.1\BeaterScriptCLI.pdb
+D:\Game Modding\Tools\NDS\BeaterScript\CLI\obj\Debug\netcoreapp3.1\BeaterScriptCLI.genruntimeconfig.cache

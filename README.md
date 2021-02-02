@@ -1,5 +1,5 @@
 # BeaterScript
-A "beater" script editor for Pokémon Black 2 and White 2.
+A "beater" script editor for Pokémon HeartGold and SoulSilver, and the Generation V games.
 
 # TODO:
 * ~~Calculate the header section properly.~~

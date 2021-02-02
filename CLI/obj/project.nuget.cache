@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "X3ePW2uZsNulf2oYbyAyJ2MWoOg1tZutJzLBLaToveiRLJHvMFTKtqjalOzRWOnAvtr4B44l8bT3eSybjgQ52Q==",
+  "success": true,
+  "projectFilePath": "D:\\Game Modding\\Tools\\NDS\\BeaterScript\\CLI\\BeaterScriptCLI.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\L33TG\\.nuget\\packages\\yamldotnet\\8.1.2\\yamldotnet.8.1.2.nupkg.sha512"
+  ],
+  "logs": []
+}

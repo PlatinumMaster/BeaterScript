@@ -1,0 +1,124 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "YamlDotNet/8.1.2": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/YamlDotNet.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.1/YamlDotNet.dll": {}
+        }
+      },
+      "BeaterScript/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "dependencies": {
+          "YamlDotNet": "8.1.2"
+        },
+        "compile": {
+          "bin/placeholder/BeaterScript.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/BeaterScript.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "YamlDotNet/8.1.2": {
+      "sha512": "GlPKbb4l+91dyYVKV7UnJlr2CWooNNM1ayZWC90QAmlFPgbwSkfhgId7dGjTAHqkB84BZqjMSy5PlAYf1iejVA==",
+      "type": "package",
+      "path": "yamldotnet/8.1.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "lib/net20/YamlDotNet.dll",
+        "lib/net20/YamlDotNet.xml",
+        "lib/net35-client/YamlDotNet.dll",
+        "lib/net35-client/YamlDotNet.xml",
+        "lib/net35/YamlDotNet.dll",
+        "lib/net35/YamlDotNet.xml",
+        "lib/net45/YamlDotNet.dll",
+        "lib/net45/YamlDotNet.xml",
+        "lib/netstandard1.3/YamlDotNet.dll",
+        "lib/netstandard1.3/YamlDotNet.xml",
+        "lib/netstandard2.1/YamlDotNet.dll",
+        "lib/netstandard2.1/YamlDotNet.xml",
+        "yamldotnet.8.1.2.nupkg.sha512",
+        "yamldotnet.nuspec"
+      ]
+    },
+    "BeaterScript/1.0.0": {
+      "type": "project",
+      "path": "../BeaterScript.csproj",
+      "msbuildProject": "../BeaterScript.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    ".NETCoreApp,Version=v3.1": [
+      "BeaterScript >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\L33TG\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "D:\\Game Modding\\Tools\\NDS\\BeaterScript\\CLI\\BeaterScriptCLI.csproj",
+      "projectName": "BeaterScriptCLI",
+      "projectPath": "D:\\Game Modding\\Tools\\NDS\\BeaterScript\\CLI\\BeaterScriptCLI.csproj",
+      "packagesPath": "C:\\Users\\L33TG\\.nuget\\packages\\",
+      "outputPath": "D:\\Game Modding\\Tools\\NDS\\BeaterScript\\CLI\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\L33TG\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "netcoreapp3.1"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "projectReferences": {
+            "D:\\Game Modding\\Tools\\NDS\\BeaterScript\\BeaterScript.csproj": {
+              "projectPath": "D:\\Game Modding\\Tools\\NDS\\BeaterScript\\BeaterScript.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "netcoreapp3.1": {
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
