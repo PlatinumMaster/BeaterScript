@@ -119,7 +119,7 @@ namespace BeaterScript
                 b.BaseStream.Position = originalPos;
                 script.Add(c);
 
-                if (c.Name.Equals("EndScript") || c.Name.Equals("UnconditionalJump") || c.Name.Equals("EndRoutine"))
+                if (c.IsEnd)
                     break;
             }
 
@@ -131,7 +131,7 @@ namespace BeaterScript
             try
             {
                 var def = Handler.commands[id];
-                c = new Command(def.Name, def.ID, def.HasFunction, def.HasMovement, def.Types);
+                c = new Command(def.Name, def.ID, def.HasFunction, def.HasMovement, def.IsEnd, def.Types);
                 return true;
             }
             catch (KeyNotFoundException)

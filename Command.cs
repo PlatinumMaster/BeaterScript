@@ -10,10 +10,11 @@ namespace BeaterScript
         public IReadOnlyList<Type> Types { get; }
         public bool HasFunction { get; }
         public bool HasMovement { get; }
+        public bool IsEnd { get;  }
         public ushort ID { get; }
         public List<object> Parameters { get; set; }
         
-        public Command(string name, ushort id, bool hasFunction, bool hasMovement, IReadOnlyList<Type> types)
+        public Command(string name, ushort id, bool hasFunction, bool hasMovement, bool isEnd, IReadOnlyList<Type> types)
         {
             Name = name;
             Types = types;
@@ -21,10 +22,11 @@ namespace BeaterScript
             Parameters = new List<object>();
             HasFunction = hasFunction;
             HasMovement = hasMovement;
+            IsEnd = isEnd;
         }
 
-        public Command(string name, ushort id, bool hasFunction, bool hasMovement)
-            : this(name, id, hasFunction, hasMovement, Array.Empty<Type>())
+        public Command(string name, ushort id, bool hasFunction, bool hasMovement, bool isEnd)
+            : this(name, id, hasFunction, hasMovement, isEnd, Array.Empty<Type>())
         {
         }
 

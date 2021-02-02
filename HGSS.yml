@@ -1,0 +1,150 @@
+0x2:
+  Name: End
+  IsEnd: true
+
+0x16: 
+  Name: Jump
+  Parameters:
+    - int
+  HasFunction: true
+  HasMovement: false
+  IsEnd: true
+
+0x1B: 
+  Name: Return
+  IsEnd: true
+
+0x11: 
+  Name: If
+  Parameters:
+    - ushort
+    - ushort
+  HasFunction: false
+  HasMovement: false
+
+0x1A: 
+  Name: Call
+  Parameters:
+    - int
+  HasFunction: true
+  HasMovement: false
+
+0x1C: 
+  Name: CompareLastResultJump
+  Parameters:
+    - byte
+    - int
+  HasFunction: true
+  HasMovement: false
+
+0x1D:
+  Name: CompareLastResultCall
+  Parameters:
+    - byte
+    - int
+  HasFunction: true
+  HasMovement: false
+
+0x20:
+  Name: CheckFlag
+  Parameters:
+    - ushort
+  HasFunction: false
+  HasMovement: false
+
+0x29:
+  Name: SetVar
+  Parameters:
+    - ushort
+    - ushort
+  HasFunction: false
+  HasMovement: false
+
+0x2D:
+  Name: Message
+  Parameters:
+    - byte
+  HasFunction: false
+  HasMovement: false
+
+0x2E:
+  Name: MessageFlex
+  Parameters:
+    - ushort
+  HasFunction: false
+  HasMovement: false
+
+0x2F:
+  Name: MessageNoSkip
+  Parameters:
+    - ushort
+  HasFunction: false
+  HasMovement: false
+
+0x31:
+  Name: WaitAB
+
+0x32:
+  Name: WaitKey
+
+0x34:
+  Name: OpenMessage
+
+0x35:
+  Name: CloseMessage
+
+0x36:
+  Name: FreezeMessage
+
+0x44:
+  Name: Multi3
+
+0x49:
+  Name: PlayFanfare
+  Parameters:
+    - ushort
+
+0x5E:
+  Name: ApplyMovement
+  Parameters:
+    - ushort
+    - int
+  HasFunction: false
+  HasMovement: true
+
+0x5F:
+  Name: WaitMovement
+
+0x61:
+  Name: ReleaseAll
+
+0x176:
+  Name: CMD_176
+  Parameters:
+    - ushort
+  HasFunction: false
+  HasMovement: false
+
+0x60:
+  Name: LockAll
+
+0x2A1:
+  Name: ApplyMovement2
+  Parameters:
+    - ushort
+    - int
+  HasFunction: false
+  HasMovement: true
+
+0x231:
+  Name: CMD_231
+  Parameters:
+    - ushort
+    - ushort
+    - ushort
+    - ushort
+  HasFunction: false
+  HasMovement: false
+
+0x261:
+  Name: MecScript

@@ -39,7 +39,11 @@ namespace BeaterScript
             try { hasMovement = node["HasMovement"].ToString() == "true"; }
             catch (KeyNotFoundException) { }
 
-            return new Command(name, (ushort)key, hasFunction, hasMovement, types);
+            bool isEnd = false;
+            try { isEnd = node["IsEnd"].ToString() == "true"; }
+            catch (KeyNotFoundException) { }
+
+            return new Command(name, (ushort)key, hasFunction, hasMovement, isEnd, types);
         }
 
         private static List<Type> ReadCommandParameters(YamlMappingNode node)

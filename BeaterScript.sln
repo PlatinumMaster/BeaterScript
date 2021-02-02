@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeaterScript", "BeaterScript.csproj", "{7136F3D8-C0A6-4471-B3DB-3F42A0E046C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeaterScript", "BeaterScript.csproj", "{7136F3D8-C0A6-4471-B3DB-3F42A0E046C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeaterScriptCLI", "..\BeaterScriptCLI\BeaterScriptCLI.csproj", "{C4E35239-AB7E-46E6-BD21-9FBD73DE4300}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{7136F3D8-C0A6-4471-B3DB-3F42A0E046C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7136F3D8-C0A6-4471-B3DB-3F42A0E046C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7136F3D8-C0A6-4471-B3DB-3F42A0E046C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4E35239-AB7E-46E6-BD21-9FBD73DE4300}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4E35239-AB7E-46E6-BD21-9FBD73DE4300}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4E35239-AB7E-46E6-BD21-9FBD73DE4300}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4E35239-AB7E-46E6-BD21-9FBD73DE4300}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
